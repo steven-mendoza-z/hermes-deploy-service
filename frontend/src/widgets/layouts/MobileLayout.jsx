@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import SidebarLayout from './SidebarLayout';
 import FormLayout from './FormLayout';
 import { routes } from '../../routes';
-import BottombarLayout from './BottomBarLayout';
+import BottombarLayout from './BottombarLayout';
 
 export default function MobileLayout() {
   const { i18n, t } = useTranslation();
