@@ -69,6 +69,7 @@ body, main {
     flex-direction: row;
     align-items: start;
     background-color: var(--bg-light);
+    overflow-y: hidden;
 } 
 #root > div {
     display: flex;
@@ -77,6 +78,7 @@ body, main {
     justify-content: start;
     max-height: 97vh;
     background-color: var(--bg-dark);
+    overflow-y: hidden;
 }
 .page-container {
     flex: 1;
