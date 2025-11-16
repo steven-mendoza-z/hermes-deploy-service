@@ -10,7 +10,7 @@ import AuthLayout from "./widgets/layouts/AuthLayout";
 
 import Signup from "./widgets/pages/Signup";
 import Login from "./widgets/pages/Login";
-import BottombarLayout from "./widgets/layouts/BottomBarLayout";
+import BottombarLayout from "./widgets/layouts/BottombarLayout";
 
 const Servers = lazy(() => import("./widgets/pages/logged/Servers"));
 const Images = lazy(() => import("./widgets/pages/logged/Images"));
