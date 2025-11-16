@@ -236,6 +236,7 @@ video {
     }
     body header{
         padding: 15px 15px;
+        padding-bottom: 25px;
     }
     body header select {
         height: 30px;
