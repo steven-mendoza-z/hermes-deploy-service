@@ -22,7 +22,7 @@ i18n
           email: "Email",
           region: "Region",
           port: "Port",
-          username: "Username",
+          project: "Project",
         
           // Image Pages
           imageRegistry: "Registry Image",
@@ -74,7 +74,7 @@ i18n
           email: "Correo",
           region: "Región",
           port: "Puerto",
-          username: "Usuario",
+          project: "Proyecto",
 
           // Image Pages
           imageRegistry: "Registro de Imágenes",

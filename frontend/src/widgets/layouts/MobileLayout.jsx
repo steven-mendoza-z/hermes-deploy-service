@@ -7,6 +7,7 @@ import SidebarLayout from './SidebarLayout';
 import FormLayout from './FormLayout';
 import { routes } from '../../routes';
 import BottombarLayout from './BottombarLayout';
+import Shell from '../components/shell/Shell';
 
 export default function MobileLayout() {
   const { i18n, t } = useTranslation();
@@ -24,6 +25,8 @@ export default function MobileLayout() {
   return (
     <>
       <BottombarLayout elements={sidebarElements} className=""/>
+      <Shell/>
+      
       <div className='page-container'>
         <header>
           <Header />

@@ -74,7 +74,8 @@ body.dark {
   --bg-light: hsl(247, 10%, 20%);
   --border: hsl(247, 5%, 20%);
 
-  --shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 0px 4px 4px hsla(0, 0%, 0% 0.15);
+  --shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 
+            0px 4px 4px hsla(0, 0%, 0% 0.15);
 
   --text-h1: hsl(0 0 90%);
   --text-main: hsl(0 0 80%);
@@ -94,6 +95,8 @@ body.light {
   --bg-light: hsl(0 0 100%);
   --border: hsl(0, 0%, 80%, 30%);
   --border2: hsl(0 0 100%); 
+
+  --shadow: 0px 2px 2px hsla(0, 46%, 47%, 0.625), 0px 4px 4px hsla(0, 32%, 47%, 0.748);
 
   --text-h1: hsl(0 0 15%);
   --text-main: hsl(0 0 20%);

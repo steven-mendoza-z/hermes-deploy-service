@@ -8,16 +8,17 @@ body #root .bottombar{
     width: 100vw;
     align-items: center;
     justify-content: center;
-    border-radius: 10px 10px 0 0;
+    /* border-radius: 10px 10px 0 0; */
     background-color: var(--bg-light);
     border: 0;
     box-shadow: var(--shadow);
     flex-direction: row;
     padding: 5px 5px;
     /* gap: 7vw; */
-
-    box-sizing: border-box;
+    position: relative;
     z-index: 1000;
+    box-shadow: 100px solid var(--bg-dark);
+    box-sizing: border-box;
 }
 
 .bottombar a{
@@ -48,4 +49,44 @@ body #root .bottombar{
 #root .bottombar-element a .icon{
     min-height: 20px;
     min-width: 20px;
+    box-shadow: var(--shadow);
+}
+
+.shell{
+    position: relative;
+    z-index: 50;
+    width: 100%;
+    background-color: var(--bg);
+    /* border-top: solid 2px var(--border); */
+    border-radius: 10px 10px 0 0;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.shell-header{
+    background-color: var(--highlight1);
+    color: #ddd;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer; 
+}
+
+.shell-content{
+    width: 100%;
+    height: 100%;
+    padding: 0 5px 10px 15px;
+}
+
+.shell-content .xterm-viewport {
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent; /* Firefox */
+}
+
+.shell-content .xterm-viewport::-webkit-scrollbar {
+  width: 4px;
+}
+
+.shell-content .xterm-viewport::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
 }

@@ -1,8 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useTranslation } from "react-i18next";
-
 import CustomSelect from "../forms/components/CustomSelect";
+
+export function useDebounce(value, delay = 300) {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debounced;
+}
 
 export default function FullSearchBar({
   options = [],
@@ -11,15 +21,15 @@ export default function FullSearchBar({
   setData,
   initialQuery = "",
   filters = false,
-  buttonName = "add"
+  buttonName = "add",
 }) {
   const { t } = useTranslation();
-    const { setForm } = useAppState();
+  const { setForm } = useAppState();
   const [query, setQuery] = useState(initialQuery);
+  const debouncedQuery = useDebounce(query, 250);
 
   // snapshot por opción
   const fullDataMapRef = useRef(new Map());
-  // firma del último filtro aplicado (para evitar setData redundantes)
   const lastSigRef = useRef({ opt: null, q: "", len: -1, firstKey: undefined });
 
   const current = useMemo(() => {
@@ -51,7 +61,6 @@ export default function FullSearchBar({
     const full = fullDataMapRef.current.get(current.value) || [];
     const next = q ? full.filter((row) => rowMatches(row, q)) : full;
 
-    // 👇 Evita setData si no cambia el resultado
     const sig = {
       opt: current.value,
       q,
@@ -65,28 +74,33 @@ export default function FullSearchBar({
       prev.len === sig.len &&
       prev.firstKey === sig.firstKey
     ) {
-      return; // no hay cambios visibles → no setData
+      return; // mismo resultado → no setData → evitamos loops
     }
     lastSigRef.current = sig;
     setData(next);
   };
 
-  // Cuando cambia la opción (no el array de datos), resetea query y usa el snapshot
+  // 1) Guardar snapshot de la data completa cuando cambia el dataset
   useEffect(() => {
     if (!current) return;
-    const base = Array.isArray(current.data) ? [...current.data] : [];
-    fullDataMapRef.current.set(current.value, base);
-    setQuery("");
-    lastSigRef.current = { opt: null, q: "", len: -1, firstKey: undefined }; // resetea firma
-    setData(base);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.value]); // ← importante: solo depende del value, no de current.data
 
-  const handleSearchChange = (e) => {
-    const q = e.target.value;
-    setQuery(q);
-    applyFilter(q);
-  };
+    const fullMap = fullDataMapRef.current;
+    const existing = fullMap.get(current.value);
+    const base = Array.isArray(current.data) ? current.data : [];
+
+    // Solo inicializamos snapshot si no existe todavía y ya hay data
+    if ((!existing || !existing.length) && base.length) {
+      fullMap.set(current.value, [...base]);
+      // opcional: inicializar data visible con el full
+      setData(base);
+      lastSigRef.current = { opt: null, q: "", len: -1, firstKey: undefined };
+    }
+  }, [current, setData]);
+
+  // 2) Aplicar filtro con debounce
+  useEffect(() => {
+    applyFilter(debouncedQuery);
+  }, [debouncedQuery, current]);
 
   const handleOptionChange = (val) => onChangeOption?.(val);
   const handleAdd = () => current?.addFormName && setForm(current.addFormName);
@@ -109,18 +123,20 @@ export default function FullSearchBar({
           className="searchbar-input"
           placeholder={t("search")}
           value={query}
-          onChange={handleSearchChange}
-          onKeyDown={(e) => e.key === "Enter" && applyFilter(query)}
+          onChange={(e) => setQuery(e.target.value)}  // solo actualiza query
+          onKeyDown={(e) => e.key === "Enter" && applyFilter(query)} // enter = filtro inmediato
         />
         <button className="searchbar-button" onClick={() => applyFilter(query)}>
           <img src="./search.png" alt="" className="icon" />
         </button>
       </div>
-      {filters &&
+
+      {filters && (
         <button className="searchbar-filter row center">
-          <img src="./filter.png" alt="filter" className="icon"/>
-          <p>Filters</p> 
-        </button>}
+          <img src="./filter.png" alt="filter" className="icon" />
+          <p>Filters</p>
+        </button>
+      )}
       {current?.addFormName && (
         <button className="searchbar-add row center" onClick={handleAdd}>
           <img src="./add.png" alt="add" className="reversed-icon" />

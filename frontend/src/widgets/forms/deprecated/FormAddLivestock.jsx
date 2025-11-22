@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import RequestForm from "./components/RequestForm";
-import CustomInput from "./components/CustomInput";
-import CustomSelect from "./components/CustomSelect";
+import RequestForm from "../components/RequestForm.jsx";
+import CustomInput from "../components/CustomInput.jsx";
+import CustomSelect from "../components/CustomSelect.jsx";
 
 import {
   useSpecies,
@@ -13,11 +13,11 @@ import {
 } from "../../features/livestock/livestockConsts.jsx";
 
 import { useTranslation } from "react-i18next";
-import { usePreferences } from "../../context/PreferencesContext.jsx";
+import { usePreferences } from "../../../context/PreferencesContext.jsx";
 
 import { LivestockModel } from "../../features/livestock/entities/models/LivestockModel.jsx";
 import { addLivestock } from "../../features/livestock/hooks/livestockRequests.js";
-import { useAppState } from "../../context/AppStateContext.jsx";
+import { useAppState } from "../../../context/AppStateContext.jsx";
 
 export function FormAddLivestock() {
   const { t } = useTranslation();

@@ -1,10 +1,16 @@
 import { useState, cloneElement } from "react";
 import { useAppState } from "../../context/AppStateContext";
+import FormAddServer from "../forms/FormAddServer";
+import FormAddImage from "../forms/FormAddImage";
+import FormAddRepo from "../forms/FormAddRepo";
 
 const formSelected = {
   // Livestock
   // addLivestock: <FormAddLivestock />,
-
+  addServer: <FormAddServer/>,
+  addImage: <FormAddImage/>,
+  addRepo: <FormAddRepo/>,
+  addApp: <addApp/>,
 };
 
 export function FormLayout() {

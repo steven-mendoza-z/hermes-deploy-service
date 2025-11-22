@@ -1,21 +1,30 @@
 import { ApiClient } from "../../../core/http";
 import { makeCrudHooks } from "../../../core/crudHooks";
-import { LIVESTOCK_API_URL } from "../../../config/services";
-import { LocationModel } from "./model";
+import { DEPLOY_API_URL } from "../../../config/services";
+import { ServerModel } from "./ServerModel";
 
-const api = new ApiClient(LIVESTOCK_API_URL);
+const api = new ApiClient(DEPLOY_API_URL);
 
 export const {
-  useList:   useLocations,      // -> data: [{ value, label }]
-  useDetail: useLocation,       // -> data: { value, label } (si asOptions=true)
-  useCreate: useCreateLocation,
-  useUpdate: useUpdateLocation,
-  useDelete: useDeleteLocation,
+  useList:   useServers,      // -> data: [{ value, label }]
+  useDetail: useServer,       // -> data: { value, label } (si asOptions=true)
+  useCreate: useCreateServer,
+  useUpdate: useUpdateServer,
+  useDelete: useDeleteServer,
 } = makeCrudHooks({
   client: api,
-  basePath: "/locations",
-  resource: "locations",
-  mapOne: (raw) => LocationModel.fromAPI(raw), // red -> dominio
+  basePath: "/servers",
+  resource: "servers",
+  mapOne: (raw) => ServerModel.fromAPI(raw),
   // mapMany por defecto usa mapOne
-  asOptions: true, // 👈 esto hace que los hooks expongan value/label
+  asOptions: false,
+
+  listAdapter: (arr) =>
+    Array.isArray(arr)
+      ? arr.map((serverModel) =>
+          serverModel?.toJSON
+            ? serverModel.toJSON() // -> { id, user, name, email, region, ssh_key }
+            : serverModel
+        )
+      : [],
 });

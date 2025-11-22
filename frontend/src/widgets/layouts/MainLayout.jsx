@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import SidebarLayout from './SidebarLayout';
 import FormLayout from './FormLayout';
 import { routes } from '../../routes';
+import Shell from '../components/shell/Shell';
 
 export default function Layout() {
   const { i18n, t } = useTranslation();
@@ -26,23 +27,26 @@ export default function Layout() {
         elements={sidebarElements}
         className=""
       />
-      
 
       <div className='page-container'>
-        <header>
-          <Header />
-        </header>
-        
-        <main className='full-w flex column'>
-          <Outlet />
-        </main>
+        <div className='page-content full-view'>
+          <header>
+            <Header />
+          </header>
+          
+          <main className='full-w flex column'>
+            <Outlet />
+          </main>
+        </div>
 
-        <footer>
+        <Shell/>
+
+        {/* <footer>
           <Footer />
-        </footer>
-
-        <FormLayout />
+        </footer> */}
       </div>
+        <FormLayout />
+
     </>
   );
 }

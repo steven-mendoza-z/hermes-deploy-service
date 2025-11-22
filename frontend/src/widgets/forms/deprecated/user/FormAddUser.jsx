@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import RequestForm from "../components/RequestForm.jsx";
+import RequestForm from "../../components/RequestForm.jsx";
 import { useTranslation } from "react-i18next";
 import { useRols } from "../../../../features/accounts/users/entities.js";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
+import CustomInput from "../../components/CustomInput.jsx";
+import CustomSelect from "../../components/CustomSelect.jsx";
 
 
 export function FormAddUser() {

@@ -28,9 +28,6 @@ html, body, #root, #root > div:has(.sidebar) {
     padding: 0;
 }
 
-#root > div > div {
-    height: 100vh;
-}
 
 .page-container{
     display: flex;
@@ -89,9 +86,13 @@ body, main {
     /* width: clamp(390px, 85vw, 1000px); */
     width: 100%;
     padding: 0;
+}
+.page-content{
     padding-bottom: 10px;
     padding-left: 10px;
 }
+
+
 main {
     align-items: center;
     gap: 10px;
@@ -233,6 +234,12 @@ video {
 }
 
 /* Vertical */
+@media (min-width: 768px) {
+   #root > div > div {
+        height: 100vh;
+    }
+}
+
 @media (max-width: 768px) {
     ::-webkit-scrollbar {
         display:none;
