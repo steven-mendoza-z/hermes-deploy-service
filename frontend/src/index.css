@@ -73,7 +73,8 @@ body, main {
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    max-height: 97vh;
+    max-height: 100vh;
+    max-height: 100dvh;
     background-color: var(--bg-dark);
     overflow-y: hidden;
 }
