@@ -23,6 +23,7 @@ div {
 /* html, body, #root, main */
 html, body, #root, #root > div:has(.sidebar) {
     min-height: 100vh;
+    min-height: 100dvh;
     min-width: 100vw;
     margin: 0;
     padding: 0;
