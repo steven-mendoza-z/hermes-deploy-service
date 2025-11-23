@@ -24,3 +24,4 @@ django-allauth
 dj-rest-auth
 cloudinary
 django-cloudinary-storage
+cryptography
