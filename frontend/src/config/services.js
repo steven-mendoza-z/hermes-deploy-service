@@ -5,10 +5,10 @@ const ENV_SERVER =
   "prod";
 
 // Base Domains
-// const ACCOUNTS_API_DOMAIN = "accounts.hermes.purpleblue.site";
-const ACCOUNTS_API_DOMAIN = "localhost:8021";
-// const DEPLOY_API_DOMAIN = "services.hermes.purpleblue.site";
-const DEPLOY_API_DOMAIN = "localhost:8021";
+const ACCOUNTS_API_DOMAIN = "accounts.hermes.purpleblue.site";
+// const ACCOUNTS_API_DOMAIN = "localhost:8021";
+const DEPLOY_API_DOMAIN = "api.hermes.purpleblue.site";
+// const DEPLOY_API_DOMAIN = "localhost:8021";
 
 // Enviroment Routing
 const SERVICES = {

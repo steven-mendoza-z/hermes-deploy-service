@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import RequestForm from "./components/RequestForm";
-import CustomInput from "./components/CustomInput";
-import CustomSelect from "./components/CustomSelect";
+import RequestForm from "../components/RequestForm.jsx";
+import CustomInput from "../components/CustomInput.jsx";
+import CustomSelect from "../components/CustomSelect.jsx";
 import { useTranslation } from "react-i18next";
-import { usePreferences } from "../../context/PreferencesContext.jsx";
+import { usePreferences } from "../../../context/PreferencesContext.jsx";
 import { weightUnits } from "../..//features/livestock/livestockConsts.jsx";
 
 
