@@ -34,11 +34,15 @@ jobs:
           echo "DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}" >> .env.prod
           echo "DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}" >> .env.prod
           echo "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}" >> .env.prod
-          echo "POSTGRES_DB=''" >> .env.prod
-          echo "POSTGRES_USER=''" >> .env.prod
-          echo "POSTGRES_PASSWORD=''" >> .env.prod
-          echo "POSTGRES_HOST=''" >> .env.prod
-          echo "POSTGRES_PORT=''" >> .env.prod
+
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env.prod
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.prod
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
+          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
+
+          echo "GOOGLE_CLIENT_ID=''" >> .env.prod
+          echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
           
       - name: Build all images from docker-compose
         run: docker compose -f docker-compose.yml --env-file .env.dev build
@@ -101,6 +105,9 @@ jobs:
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
+
+            echo "GOOGLE_CLIENT_ID=''" >> .env.prod
+            echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
               
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.dev down
@@ -147,7 +154,10 @@ jobs:
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
-                        
+
+            echo "GOOGLE_CLIENT_ID=''" >> .env.prod
+            echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
+
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.prod down
             docker compose --env-file .env.prod up -d --build
