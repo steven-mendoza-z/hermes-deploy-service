@@ -19,3 +19,5 @@ psycopg2-binary>=2.9
 google-auth-oauthlib==1.2.0
 requests-oauthlib==2.0.0
 oauthlib==3.3.1
+
+django-allauth
