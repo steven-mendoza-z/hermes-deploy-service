@@ -22,3 +22,5 @@ oauthlib==3.3.1
 
 django-allauth
 dj-rest-auth
+cloudinary
+django-cloudinary-storage
