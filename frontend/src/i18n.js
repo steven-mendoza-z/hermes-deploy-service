@@ -23,6 +23,7 @@ i18n
           region: "Region",
           port: "Port",
           project: "Project",
+          projectId: "Project ID",
         
           // Image Pages
           imageRegistry: "Registry Image",
@@ -75,6 +76,7 @@ i18n
           region: "Región",
           port: "Puerto",
           project: "Proyecto",
+          projectId: "ID del Proyecto",
 
           // Image Pages
           imageRegistry: "Registro de Imágenes",

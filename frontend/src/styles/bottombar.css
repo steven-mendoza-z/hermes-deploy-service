@@ -49,7 +49,7 @@ body #root .bottombar{
 #root .bottombar-element a .icon{
     min-height: 20px;
     min-width: 20px;
-    box-shadow: var(--shadow);
+    /* box-shadow: var(--shadow); */
 }
 
 .shell{

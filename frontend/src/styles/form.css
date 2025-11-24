@@ -39,6 +39,7 @@
 
 .form-container.card {
   animation: slideUp 0.35s ease-out;
+  background-color: var(--bg-light);
 }
 
 /* ⬇️ Estados de salida */
@@ -96,7 +97,8 @@
 }
 
 .requestForm button {
-  background-color: var(--highlight4);
+  background-color: var(--highlight1);
+  color: white;
   padding: 20px 20px;
   line-height: 0;
 }
@@ -166,4 +168,22 @@
 .light .customSelect:invalid {
   color: #aaa;
   font-weight: 400;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .form-layout {
+    align-items: end;
+    /* z-index: 1000; */
+  }
+
+  .form-container.card {
+    border-radius: 20px;
+    max-height: 80%;
+    max-width: 100%;
+    padding: 40px 30px;
+    padding-bottom: 70px;
+  }
 }

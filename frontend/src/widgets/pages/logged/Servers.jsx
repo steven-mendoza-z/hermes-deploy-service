@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TableCRUD from "../../components/TableCRUD";
 import { useServers } from "../../../features/deployments/servers/hooks";
+import { useAppState } from "../../../context/AppStateContext";
 
 export function ServersPage() {
   const { t } = useTranslation();
+  const { isMobile } = useAppState();
 
   const {
     data: servers = [],   // <- aquí viene el array de ServerModel (o lo que devuelva mapOne)
@@ -44,14 +46,26 @@ export function ServersPage() {
         table_name="servers"
         addFormName="addServer"
         searchKeys={["name", "ip", "email", "region", "project"]}
-        columns={[
-          statusCell,
-          { key: "name", header: t("name"), sortable: true, width: "20%" },
-          { key: "ip", header: t("ipAddress"), sortable: true, width: "20%" },
-          { key: "region", header: t("region"), sortable: true, width: "20%" },
-          { key: "email", header: t("email"), sortable: true, width: "20%" },
-          { key: "project", header: t("projectId"), sortable: true, width: "20%" },
-        ]}
+        columns={
+          isMobile ? 
+          [
+            statusCell,
+            { key: "name", header: t("name"), sortable: true, width: "25%" },
+            { key: "ip", header: t("ipAddress"), sortable: true, width: "20%" },
+            { key: "region", header: t("region"), sortable: true, width: "20%" },
+            { key: "email", header: t("email"), sortable: true, width: "35%" },
+          ]     
+          : 
+          [
+            statusCell,
+            { key: "name", header: t("name"), sortable: true, width: "20%" },
+            { key: "ip", header: t("ipAddress"), sortable: true, width: "20%" },
+            { key: "region", header: t("region"), sortable: true, width: "20%" },
+            { key: "email", header: t("email"), sortable: true, width: "20%" },
+            { key: "project", header: t("projectId"), sortable: true, width: "20%" },
+          ]     
+
+        }
         data={data}
         setData={setData}
       />

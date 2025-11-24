@@ -236,7 +236,7 @@ video {
 }
 
 /* Vertical */
-@media (min-width: 768px) {
+@media (min-width: 769px) {
    #root > div > div {
         height: 100vh;
     }
