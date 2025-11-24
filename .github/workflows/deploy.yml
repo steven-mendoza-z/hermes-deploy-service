@@ -112,6 +112,10 @@ jobs:
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.dev down
             docker compose --env-file .env.dev up -d --build
+            docker exec -it hermes_backend python manage.py makemigrations registry
+            docker exec -it hermes_backend python manage.py migrate
+            docker exec -it hermes_backend python manage.py makemigrations registry
+            docker exec -it hermes_backend python manage.py migrate
 
   deploy-prod:
     name: Deploy to Production Server
@@ -161,3 +165,7 @@ jobs:
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.prod down
             docker compose --env-file .env.prod up -d --build
+            docker exec -it hermes_backend python manage.py makemigrations registry
+            docker exec -it hermes_backend python manage.py migrate
+            docker exec -it hermes_backend python manage.py makemigrations registry
+            docker exec -it hermes_backend python manage.py migrate

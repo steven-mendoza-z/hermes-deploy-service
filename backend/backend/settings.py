@@ -5,7 +5,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env(BASE_DIR / '.env.dev')
+environ.Env.read_env(BASE_DIR / '.env.prod')
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
