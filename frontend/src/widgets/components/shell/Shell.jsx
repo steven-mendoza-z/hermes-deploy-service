@@ -60,28 +60,28 @@ export function useXterm(containerRef, enabled = true) {
 }
 
 export default function Shell({ name }) {
-  const [open, setOpen] = useState(false);   // ⬅️ empieza cerrada
+  const [open, setOpen] = useState(false);
   const container = useRef(null);
 
-  useXterm(container, open);                 // ⬅️ solo inicia xterm si está abierta
+  useXterm(container, open);
 
   return (
-    <div className="flex full-w column shell gap10">
+    <div className={`shell ${open ? "open" : "closed"}`}>
       <div
         className="shell-header row gap20"
-        onClick={() => setOpen((prev) => !prev)}   // ⬅️ toggle al click
+        onClick={() => setOpen(o => !o)}
       >
-        <p className="h5 full-w">
-          Terminal (Server{name})
-        </p>
-        <img src={open ? "arrow-down.png" : "arrow-up.png"} alt="arrow" className="icon"/>
+        <p className="h5 full-w">Terminal (Server{name})</p>
+        <img
+          src={open ? "arrow-down.png" : "arrow-up.png"}
+          alt="arrow"
+          className="icon"
+        />
       </div>
 
-      {open && (                                   // ⬅️ solo se renderiza cuando está abierta
-        <div className="flex-view shell-content">
-          <TerminalContainer ref={container} />
-        </div>
-      )}
+      <div className="shell-content">
+        <TerminalContainer ref={container} />
+      </div>
     </div>
   );
 }

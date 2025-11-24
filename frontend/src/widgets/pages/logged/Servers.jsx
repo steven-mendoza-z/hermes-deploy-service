@@ -6,7 +6,7 @@ import { useAppState } from "../../../context/AppStateContext";
 
 export function ServersPage() {
   const { t } = useTranslation();
-  const { isMobile } = useAppState();
+  const { isMobile, setAdvancedForm } = useAppState();
 
   const {
     data: servers = [],   // <- aquí viene el array de ServerModel (o lo que devuelva mapOne)
@@ -14,7 +14,7 @@ export function ServersPage() {
     isError,
     error,
   } = useServers();
-  console.log("fetched:", servers);
+  // console.log("fetched:", servers);
 
   // const servers = [
   //   { name: "host-server", email: "server1@example.com", region: "us-central1-a", ip: "192.168.1.1", status: "on", user: "User 1" },
@@ -68,6 +68,7 @@ export function ServersPage() {
         }
         data={data}
         setData={setData}
+        onRowClick={(row) => setAdvancedForm("actionsServer", row)} 
       />
     </div>
   );

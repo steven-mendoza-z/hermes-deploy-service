@@ -1,8 +1,16 @@
 import { useState, cloneElement } from "react";
 import { useAppState } from "../../context/AppStateContext";
-import FormAddServer from "../forms/FormAddServer";
-import FormAddImage from "../forms/FormAddImage";
-import FormAddRepo from "../forms/FormAddRepo";
+
+import FormAddServer from "../forms/add/FormAddServer";
+import FormAddImage from "../forms/add/FormAddImage";
+import FormAddRepo from "../forms/add/FormAddRepo";
+import FormAddApp from "../forms/add/FormAddApp";
+
+import FormActionsServer from "../forms/actions/FormActionsServer";
+import FormActionsImage from "../forms/actions/FormActionsImage";
+import FormActionsRepo from "../forms/actions/FormActionsRepo";
+import FormActionsApp from "../forms/actions/FormActionsApp";
+
 
 const formSelected = {
   // Livestock
@@ -10,7 +18,12 @@ const formSelected = {
   addServer: <FormAddServer/>,
   addImage: <FormAddImage/>,
   addRepo: <FormAddRepo/>,
-  addApp: <addApp/>,
+  addApp: <FormAddApp/>,
+
+  actionsServer: <FormActionsServer/>,
+  actionsImage: <FormActionsImage/>,
+  actionsRepo: <FormActionsRepo/>,
+  actionsApp: <FormActionsApp/>,
 };
 
 export function FormLayout() {

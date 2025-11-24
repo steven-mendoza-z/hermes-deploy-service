@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import RequestForm from "./components/RequestForm.jsx";
-import CustomInput from "./components/CustomInput.jsx";
-import CustomSelect from "./components/CustomSelect.jsx";
+import RequestForm from "../components/RequestForm.jsx";
+import CustomInput from "../components/CustomInput.jsx";
+import CustomSelect from "../components/CustomSelect.jsx";
 
 import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../features/deployments/repos/hooks.js";
-import { useAppState } from "../../context/AppStateContext.jsx";
+import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
+import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
+import { useAppState } from "../../../context/AppStateContext.jsx";
 
-
-export function FormAddRepo() {
+export function FormAddServer() {
   const { t } = useTranslation();
   const { setForm } = useAppState();
 
@@ -24,7 +23,7 @@ export function FormAddRepo() {
   // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("[FormAddRepo] submit fired");
+    console.log("[FormAddServer] submit fired");
     try {
         // API request
       const response = await useCreateRepo(repo);
@@ -51,4 +50,4 @@ export function FormAddRepo() {
   );
 }
 
-export default FormAddRepo;
+export default FormAddServer;

@@ -11,6 +11,7 @@
 @import url('./styles/bottombar.css');
 @import url('./styles/form.css');
 @import url('./styles/tables.css');
+@import url('./styles/anims.css');
 
 
 @import url('./styles/analysis/pieCharts.css');
@@ -36,7 +37,6 @@ html, body, #root, #root > div:has(.sidebar) {
     width: 100%;
     align-items: start;
     flex-direction: column;
-    padding-left: 10px;
 }
 
 header{
@@ -44,8 +44,7 @@ header{
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 15px;
-    padding-left: 25px;
+    padding: 20px 25px;
 }
 
 body, main {
@@ -84,14 +83,11 @@ body, main {
     overflow-y: auto;
     align-items: center;
     gap: 10px;
-    padding: 20px;
-    /* width: clamp(390px, 85vw, 1000px); */
     width: 100%;
     padding: 0;
 }
 .page-content{
     padding-bottom: 10px;
-    padding-left: 10px;
 }
 
 
@@ -99,6 +95,7 @@ main {
     align-items: center;
     gap: 10px;
     padding: 0px 25px;
+    padding-left: 22px;
     /* width: clamp(390px, 85vw, 1000px); */
     width: 100%;
 }

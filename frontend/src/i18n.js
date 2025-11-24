@@ -10,9 +10,18 @@ i18n
         translation: {
           // Pages
           servers: "Servers",
+          server: "Server",
+
           imageRegistry: "Image Registry",
+          images: "Images",
+          image: "Image",
+
           repositories: "Repositories",
+          repository: "Repository",
+
           apps: "Apps",
+          app: "App",
+
           deploys: "Deploys",
           settings: "Settings",
 
@@ -24,9 +33,8 @@ i18n
           port: "Port",
           project: "Project",
           projectId: "Project ID",
-        
+
           // Image Pages
-          imageRegistry: "Registry Image",
           version: "Version",
           url: "URL",
           source: "Source",
@@ -37,8 +45,6 @@ i18n
 
           // Apps Page
           domain: "Domain",
-          images: "Images",
-          image: "Image",
 
           // Operations
           search: "Search",
@@ -47,6 +53,7 @@ i18n
           edit: "Edit",
           archive: "Archive",
           delete: "Delete",
+          update: "Update",
 
           // Forms
           addServer: "Add Server",
@@ -54,18 +61,28 @@ i18n
           addRepo: "Add Repository",
           createApp: "Create App",
 
+          // Table messages
           emptyTableMessage: "No data added yet",
-          noResultMessage: "No results match your search"
-
+          noResultMessage: "No results match your search",
         },
       },
+
       es: {
         translation: {
           // Pages
           servers: "Servidores",
+          server: "Servidor",
+
           imageRegistry: "Registro de Imágenes",
+          images: "Imágenes",
+          image: "Imagen",
+
           repositories: "Repositorios",
+          repository: "Repositorio",
+
           apps: "Aplicaciones",
+          app: "Aplicación",
+
           deploys: "Despliegues",
           settings: "Configuración",
 
@@ -79,7 +96,6 @@ i18n
           projectId: "ID del Proyecto",
 
           // Image Pages
-          imageRegistry: "Registro de Imágenes",
           version: "Versión",
           url: "URL",
           source: "Origen",
@@ -90,8 +106,6 @@ i18n
 
           // Apps Page
           domain: "Dominio",
-          images: "Imágenes",
-          image: "Imagen",
 
           // Operations
           search: "Buscar",
@@ -100,6 +114,7 @@ i18n
           edit: "Editar",
           archive: "Archivar",
           delete: "Eliminar",
+          update: "Actualizar",
 
           // Forms
           addServer: "Agregar Servidor",
@@ -107,15 +122,15 @@ i18n
           addRepo: "Agregar Repositorio",
           createApp: "Crear Aplicación",
 
+          // Table messages
           emptyTableMessage: "Aún no se han agregado datos",
-          noResultMessage: "No hay resultados que coincidan con la búsqueda"
+          noResultMessage: "No hay resultados que coincidan con la búsqueda",
         },
       },
     },
     lng: "es",
     fallbackLng: "es",
     interpolation: { escapeValue: false },
-  }
-);
+  });
 
 export default i18n;

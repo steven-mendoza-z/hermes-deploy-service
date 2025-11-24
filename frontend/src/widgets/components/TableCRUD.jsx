@@ -4,7 +4,7 @@ import Table from "./Table";
 import FullSearchBar from "./FullSearchBar";
 
 
-export function TableCRUD({id, table_name, addFormName, searchKeys, columns, data,  setData, buttonName="add"}) {
+export function TableCRUD({id, table_name, addFormName, searchKeys, columns, data,  setData, buttonName="add", onRowClick}) {
   const { t, ready } = useTranslation();
 
   const options = [{
@@ -27,6 +27,7 @@ export function TableCRUD({id, table_name, addFormName, searchKeys, columns, dat
         <Table
           data={data}
           columns={columns.filter(Boolean)}
+          onRowClick={onRowClick}
         />    
     </div>
   );
