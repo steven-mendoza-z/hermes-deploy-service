@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TableCRUD from "../../components/TableCRUD";
 import { useImages } from "../../../features/deployments/images/hooks";
+import { useAppState } from "../../../context/AppStateContext";
 
 export function ImagesPage() {
   const { t } = useTranslation();
+  const { setAdvancedForm } = useAppState();
 
   const {
     data: images = [],
@@ -13,22 +14,7 @@ export function ImagesPage() {
     error,
   } = useImages();
 
-  // const images = [
-  //   { 
-  //     name: "Image 1", 
-  //     version: "v0.2.1", 
-  //     url: "https://example.com/image1", 
-  //     repository: "Repo 1" 
-  //   },
-  // ];
-
-
-  const [data, setData] = useState(images);
-  console.log("Servers fetched:", images);
-  useEffect(() => {
-    setData(images);
-  }, [!isLoading]);
-
+  console.log("Images fetched:", images);
 
   return (
     <div className="full-view flex column-left gap20">
@@ -43,8 +29,9 @@ export function ImagesPage() {
           { key: "url", header: t("url"), sortable: true, width: "40%" },
           { key: "repository", header: t("source"), sortable: true, width: "25%" },
         ]}
-        data={data}
-        setData={setData}
+        initialData={images}
+        // 👇 abre FormActionsImage
+        onRowClick={(row) => setAdvancedForm("actionsImage", row)}
       />
     </div>
   );

@@ -1,52 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RequestForm from "../components/RequestForm.jsx";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
-
 import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
-import { useAppState } from "../../../context/AppStateContext.jsx";
+import { ServerModel } from "../../../features/deployments/servers/ServerModel.js";
+import { useCreateServer, useServers } from "../../../features/deployments/servers/hooks.js";
 
-export function FormAddServer() {
+export function FormAddServer({ onRequestClose }) {
   const { t } = useTranslation();
-  const { setForm } = useAppState();
+  const [server, setServer] = useState(new ServerModel());
+  const createServer = useCreateServer();
 
-  const [repo, setRepo] = useState(new RepoModel());
 
-  const handleChange = (field, value) => {
-    const updated = new RepoModel(repo.toJSON());
-    updated[field] = value;
-    setRepo(updated);
+  const inputList = [
+    { label: "name", valueKey: "name", validations: { required: true, minLength: 3 } },
+    { label: "ipAddress", valueKey: "ip", validations: { required: true, pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b" } },
+    { label: "region", valueKey: "region", validations: { required: true } },
+    { label: "email", valueKey: "email", validations: { type: "email", required: true } },
+    { label: "projectId", valueKey: "project", validations: { required: true } },
+  ];
+
+  const handleChange = (key, value) => {
+    const updated = new ServerModel(server.toJSON()); // nueva instancia
+    updated[key] = value;                              // aplicar cambio
+    setServer(updated);                                // actualizar estado
   };
 
-  // Enviar formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("[FormAddServer] submit fired");
-    try {
-        // API request
-      const response = await useCreateRepo(repo);
-      console.log("Responose:", response);
+    createServer.mutate(
+  { req: server.toAddPayload() }, // o toEditPayload()
+  {
+    onSuccess: () => {
+      setServer(new ServerModel());
+      onRequestClose?.();
+    },
+    onError: (err) => console.error(err.response?.data || err.message),
+  }
+);
 
-    // Cleaning Form
-      const reset = new RepoModel();
-      setRepo(reset);
-      setForm("none");
-
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-    }
   };
+
 
   return (
     <RequestForm
-      title={t("addRepo")}
+      title={t("addServer")}
       button_str={t("submit")}
+      inputList={inputList}
+      formObject={server}
+      setFormObject={setServer}
+      handleChange={handleChange}  // <-- aquí la prop se llama "onChange"
       onSubmit={handleSubmit}
-    >
-    
-    </RequestForm>
+    />
+
   );
 }
 

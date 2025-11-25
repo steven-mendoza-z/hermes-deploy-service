@@ -1,53 +1,63 @@
-import { useEffect, useState } from "react";
-import RequestForm from "../components/RequestForm.jsx";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
-
-import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
+// src/views/deployments/forms/FormActionsImage.jsx
 import { useAppState } from "../../../context/AppStateContext.jsx";
+import {
+  useUpdateImage,
+  useDeleteImage,
+} from "../../../features/deployments/images/hooks.js";
+import ActionsForm from "../components/ActionForm.jsx";
 
-export function FormActionsImage() {
-  const { t } = useTranslation();
-  const { setForm } = useAppState();
+export default function FormActionsImage({ onRequestClose }) {
+  const { formObject } = useAppState();
 
-  const [repo, setRepo] = useState(new RepoModel());
+  const updateImage = useUpdateImage();
+  const deleteImage = useDeleteImage();
 
-  const handleChange = (field, value) => {
-    const updated = new RepoModel(repo.toJSON());
-    updated[field] = value;
-    setRepo(updated);
+  const inputList = [
+    { label: "name", valueKey: "name" },
+    { label: "version", valueKey: "branch" },
+    { label: "url", valueKey: "url" },
+    { label: "repository", valueKey: "repository" },
+  ];
+
+  const handleSubmit = () => {
+    if (!formObject?.id) return;
+
+    updateImage.mutate(
+      {
+        pathParams: { id: formObject.id },
+        req: formObject,
+      },
+      {
+        onSuccess: () => {
+          onRequestClose?.();
+        },
+      }
+    );
   };
 
-  // Enviar formulario
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("[FormActionsImage] submit fired");
-    try {
-        // API request
-      const response = await useCreateRepo(repo);
-      console.log("Responose:", response);
+  const deleteImageFn = () => {
+    if (!formObject?.id) return;
 
-    // Cleaning Form
-      const reset = new RepoModel();
-      setRepo(reset);
-      setForm("none");
-
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-    }
+    deleteImage.mutate(
+      { pathParams: { id: formObject.id } },
+      {
+        onSuccess: () => {
+          onRequestClose?.();
+        },
+        onError: (err) => {
+          console.error("Delete image failed:", err);
+        },
+      }
+    );
   };
 
   return (
-    <RequestForm
-      title={t("addRepo")}
-      button_str={t("submit")}
+    <ActionsForm
+      title="image"
+      inputList={inputList}
       onSubmit={handleSubmit}
-    >
-    
-    </RequestForm>
+      onDelete={deleteImageFn}
+      onRequestClose={onRequestClose}
+    />
   );
 }
-
-export default FormActionsImage;

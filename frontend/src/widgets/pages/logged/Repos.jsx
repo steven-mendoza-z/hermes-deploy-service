@@ -1,28 +1,20 @@
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TableCRUD from "../../components/TableCRUD";
 import { useRepos } from "../../../features/deployments/repos/hooks";
+import { useAppState } from "../../../context/AppStateContext";
 
 export function RepositoriesPage() {
   const { t } = useTranslation();
-  const [data, setData] = useState([]);
-
-  // const repositories = [
-  //   { name: "Repo 1", url: "https://github.com/user/repo1" },
-  // ];
+  const { setAdvancedForm } = useAppState();
 
   const {
-    data: repos = [], 
+    data: repos = [],
     isLoading,
     isError,
     error,
   } = useRepos();
-  console.log("fetched:", repos);
 
-  useEffect(() => {
-    setData(repos);
-  }, [!isLoading]);
-
+  console.log("Repos fetched:", repos);
 
   return (
     <div className="full-view flex column-left gap20">
@@ -35,8 +27,9 @@ export function RepositoriesPage() {
           { key: "name", header: t("name"), sortable: true, width: "25%" },
           { key: "url", header: t("url"), sortable: true, width: "40%" },
         ]}
-        data={data}
-        setData={setData}
+        initialData={repos}
+        // 👇 abre FormActionsRepo
+        onRowClick={(row) => setAdvancedForm("actionsRepo", row)}
       />
     </div>
   );

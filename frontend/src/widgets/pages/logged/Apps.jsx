@@ -1,35 +1,20 @@
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TableCRUD from "../../components/TableCRUD";
 import { useApps } from "../../../features/deployments/apps/hooks";
+import { useAppState } from "../../../context/AppStateContext";
 
 export function AppsPage() {
   const { t } = useTranslation();
-  const [data, setData] = useState([]);
-  // const apps = [
-  //   {
-  //     name: "App 1",
-  //     servers: "Server 1, Server 2",
-  //     domain: "app1.example.com",
-  //     status: "on",
-  //     repository: "Repo 1",
-  //     image: "Image 1",
-  //   },
-  // ];
-  
+  const { setAdvancedForm } = useAppState();
+
   const {
-    data: apps = [], 
+    data: apps = [],
     isLoading,
     isError,
     error,
   } = useApps();
-  console.log("Servers fetched:", apps);
 
-  useEffect(() => {
-    setData(apps);
-  }, [!isLoading]);
-
-
+  console.log("Apps fetched:", apps);
 
   const statusCell = {
     key: "status",
@@ -37,7 +22,11 @@ export function AppsPage() {
     sortable: false,
     cell: (row) => (
       <div className="full-w flex-center">
-        <div className={`center server-status ${row.status === "on" ? "on" : "off"}`}></div>
+        <div
+          className={`center server-status ${
+            row.status === "on" ? "on" : "off"
+          }`}
+        ></div>
       </div>
     ),
     width: "50px",
@@ -49,14 +38,13 @@ export function AppsPage() {
     sortable: false,
     cell: (row) => (
       <div className="full-w flex-center">
-        {row.locations
+        {(row.locations || [])
           .map((loc) => `${loc.ip}:${loc.port}`)
           .join(", ")}
       </div>
     ),
     width: "35%",
   };
-
 
   return (
     <div className="full-view flex column-left gap20">
@@ -70,12 +58,12 @@ export function AppsPage() {
           { key: "name", header: t("name"), sortable: true, width: "20%" },
           { key: "domain", header: t("domain"), sortable: true, width: "25%" },
           locationsCell,
-          // { key: "locations", header: t("servers"), sortable: true, width: "35%" },
           { key: "image", header: t("image"), sortable: true, width: "20%" },
         ]}
-        data={data}
-        setData={setData}
+        initialData={apps}
         buttonName="create"
+        // 👇 abre FormActionsApp
+        onRowClick={(row) => setAdvancedForm("actionsApp", row)}
       />
     </div>
   );

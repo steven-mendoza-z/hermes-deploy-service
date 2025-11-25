@@ -7,10 +7,10 @@ export function SidebarLayout({ elements, className = '' }) {
   <>
     <div className={`sidebar ${className}`}>
       
-      <button className="burger-menu" onClick={() => setOpen(true)}> 
+      {/* <button className="burger-menu" onClick={() => setOpen(true)}> 
         <img src="/burger_menu.svg" alt="menu" className="icon"/> 
       </button>
-      
+       */}
       {elements.map((element, index) => (
         <div key={index}>
           <div className="sidebar-element short">
@@ -23,13 +23,13 @@ export function SidebarLayout({ elements, className = '' }) {
       
     </div>
   
-    <div
+    {/* <div
       className={`close-sidebar-button ${open ? "open" : ""}`}
       onClick={() => setOpen(false)}
-    />
+    /> */}
   
   
-    <div className={`floating-sidebar ${open ? "open" : ""}`}>
+    {/* <div className={`floating-sidebar ${open ? "open" : ""}`}>
       <button className="burger-menu" onClick={() => setOpen(false)}> 
         <img src="/burger_menu.svg" alt="menu" className="icon"/> 
       </button>  
@@ -44,7 +44,7 @@ export function SidebarLayout({ elements, className = '' }) {
           </div>
         ))}
       </div>
-  </div>
+  </div> */}
 
   
   </>

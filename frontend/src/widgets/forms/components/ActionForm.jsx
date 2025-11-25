@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import CustomInput from "../components/CustomInput.jsx";
 import { useAppState } from "../../../context/AppStateContext.jsx";
-import { useState, useEffect } from "react";
 
-export default function ActionsForm({ title, inputList, onSubmit }) {
+export default function ActionsForm({ title, inputList, onSubmit, onDelete, onRequestClose }) {
   const { t } = useTranslation();
   const { formObject, setFormObject } = useAppState();
 
@@ -11,21 +10,25 @@ export default function ActionsForm({ title, inputList, onSubmit }) {
     setFormObject(prev => ({ ...prev, [key]: value }));
   };
 
-    const [object, setObject] = useState(formObject); // solo inicial
-
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmit) {
-        await onSubmit(object); // ahora sí será el valor actualizado del local state
-    }
+    await onSubmit?.(formObject);   // AHORA ENVÍA EL OBJETO ACTUALIZADO
+    onRequestClose?.();
+  };
+
+    const onDeleteFlow = (e) => {
+    e.preventDefault(); // evitar submit accidental
+    console.log("Deleting: ", formObject);
+    onDelete?.(); // solo llamamos al handler, sin cerrar
     };
 
 
-  return (
-    <form onSubmit={handleSubmit} className="full-view column-left gap30">
-      <p className="h3">{`${t(title)} (${formObject?.name || ""})`}</p>
 
-      <div className="full-w column-left gap10">
+  return (
+    <form onSubmit={handleSubmit} className="full-view column-left gap20 actionsForm">
+      <p className="h3 full-w">{`${t(title)} (${formObject?.name || ""})`}</p>
+
+      <div className="full-view column-left gap10">
         {inputList.map(({ label, valueKey }) => (
           <CustomInput
             key={valueKey}
@@ -37,8 +40,11 @@ export default function ActionsForm({ title, inputList, onSubmit }) {
         ))}
       </div>
 
-      <div className="full-w row-right">
-        <button type="submit" className="hl1">
+      <div className="full-w row-right gap10">
+        <button type="button" className="hl1 h5 off" onClick={onDeleteFlow}>
+          {t("delete")}
+        </button>
+        <button type="submit" className="hl1 h5">
           {t("update")}
         </button>
       </div>

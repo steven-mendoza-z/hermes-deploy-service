@@ -1,52 +1,54 @@
-import { useEffect, useState } from "react";
-import RequestForm from "../components/RequestForm.jsx";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
-
+// src/views/deployments/forms/FormAddApp.jsx
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
-import { useAppState } from "../../../context/AppStateContext.jsx";
+import RequestForm from "../components/RequestForm.jsx";
+import { AppModel } from "../../../features/deployments/apps/AppModel.js";
+import { useCreateApp } from "../../../features/deployments/apps/hooks.js";
 
-export function FormAddApp() {
+export function FormAddApp({ onRequestClose }) {
   const { t } = useTranslation();
-  const { setForm } = useAppState();
+  const [app, setApp] = useState(new AppModel());
+  const createApp = useCreateApp();
 
-  const [repo, setRepo] = useState(new RepoModel());
+  const inputList = [
+    { label: "name", valueKey: "name", validations: { required: true, minLength: 3 } },
+    { label: "domain", valueKey: "domain", validations: { required: true } },
+    { label: "image", valueKey: "image", validations: { required: true } },
+    // locations las podríamos manejar más adelante con UI dedicada
+  ];
 
-  const handleChange = (field, value) => {
-    const updated = new RepoModel(repo.toJSON());
-    updated[field] = value;
-    setRepo(updated);
+  const handleChange = (key, value) => {
+    const updated = new AppModel(app.toJSON());
+    updated[key] = value;
+    setApp(updated);
   };
 
-  // Enviar formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("[FormAddApp] submit fired");
-    try {
-        // API request
-      const response = await useCreateRepo(repo);
-      console.log("Responose:", response);
-
-    // Cleaning Form
-      const reset = new RepoModel();
-      setRepo(reset);
-      setForm("none");
-
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-    }
+    createApp.mutate(
+      { req: app.toAddPayload() },
+      {
+        onSuccess: () => {
+          setApp(new AppModel());
+          onRequestClose?.();
+        },
+        onError: (err) => {
+          console.error(err?.response?.data || err?.message);
+        },
+      }
+    );
   };
 
   return (
     <RequestForm
-      title={t("addRepo")}
+      title={t("addApp")}
       button_str={t("submit")}
+      inputList={inputList}
+      formObject={app}
+      setFormObject={setApp}
+      handleChange={handleChange}
       onSubmit={handleSubmit}
-    >
-    
-    </RequestForm>
+    />
   );
 }
 

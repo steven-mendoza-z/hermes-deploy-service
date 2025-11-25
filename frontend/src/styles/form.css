@@ -71,6 +71,35 @@
   line-height: 0;
 }
 
+.actionsForm button {
+  background-color: var(--highlight1);
+  color: var(--text-highlight2);
+  color: white;
+  padding: 18px 20px;
+  line-height: 0;
+  /* font-size: 11px; */
+  /* font-weight: 500; */
+}
+
+.actionsForm button.status-button {
+  border-radius: 100%;
+  display: flex;
+  padding: 5px;
+}
+.actionsForm .status-button .status-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+.actionsForm button.on {
+  background-color: #51d29f;
+}
+.actionsForm button.off {
+  background-color: #d36985;
+}
+
+
 /* Fields */
 
 .requiredMark {
@@ -181,7 +210,7 @@
   }
 
   .form-layout.closing .form-container.card {
-    animation: slideDown .1s ease-in forwards;    
+    animation: slideDown .15s ease-in forwards;    
   }
 
 }

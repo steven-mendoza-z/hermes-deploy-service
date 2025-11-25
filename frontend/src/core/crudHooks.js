@@ -53,7 +53,7 @@ export function makeCrudHooks({
   // --- Endpoints (con mapeo de red -> dominio) ---
   const endpoints = {
     list:   { method: "GET",  path: basePath,                      responseMapper: (raw) => mapMany(raw) },
-    create: { method: "POST", path: basePath,                      responseMapper: (raw) => mapOne(raw)  },
+    create: { method: "POST", path: `${basePath}/`,                      responseMapper: (raw) => mapOne(raw)  },
     detail: { method: "GET",  path: ({ id }) => `${basePath}/${id}/`, responseMapper: (raw) => mapOne(raw) },
     update: { method: updateMethod, path: ({ id }) => `${basePath}/${id}/`, responseMapper: (raw) => mapOne(raw) },
     remove: { method: "DELETE", path: ({ id }) => `${basePath}/${id}/` },

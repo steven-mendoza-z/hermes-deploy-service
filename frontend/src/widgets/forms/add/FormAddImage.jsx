@@ -1,52 +1,54 @@
-import { useEffect, useState } from "react";
-import RequestForm from "../components/RequestForm.jsx";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
-
+// src/views/deployments/forms/FormAddImage.jsx
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
-import { useAppState } from "../../../context/AppStateContext.jsx";
+import RequestForm from "../components/RequestForm.jsx";
+import { ImageModel } from "../../../features/deployments/images/ImageModel.js";
+import { useCreateImage } from "../../../features/deployments/images/hooks.js";
 
-export function FormAddImage() {
+export function FormAddImage({ onRequestClose }) {
   const { t } = useTranslation();
-  const { setForm } = useAppState();
+  const [image, setImage] = useState(new ImageModel());
+  const createImage = useCreateImage();
 
-  const [repo, setRepo] = useState(new RepoModel());
+  const inputList = [
+    { label: "name", valueKey: "name", validations: { required: true, minLength: 3 } },
+    { label: "version", valueKey: "branch", validations: { required: true } },
+    { label: "url", valueKey: "url", validations: { required: true, type: "url" } },
+    { label: "repository", valueKey: "repository", validations: { required: true } },
+  ];
 
-  const handleChange = (field, value) => {
-    const updated = new RepoModel(repo.toJSON());
-    updated[field] = value;
-    setRepo(updated);
+  const handleChange = (key, value) => {
+    const updated = new ImageModel(image.toJSON());
+    updated[key] = value;
+    setImage(updated);
   };
 
-  // Enviar formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("[FormAddImage] submit fired");
-    try {
-        // API request
-      const response = await useCreateRepo(repo);
-      console.log("Responose:", response);
-
-    // Cleaning Form
-      const reset = new RepoModel();
-      setRepo(reset);
-      setForm("none");
-
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-    }
+    createImage.mutate(
+      { req: image.toAddPayload() },
+      {
+        onSuccess: () => {
+          setImage(new ImageModel());
+          onRequestClose?.();
+        },
+        onError: (err) => {
+          console.error(err?.response?.data || err?.message);
+        },
+      }
+    );
   };
 
   return (
     <RequestForm
-      title={t("addRepo")}
+      title={t("addImage")}
       button_str={t("submit")}
+      inputList={inputList}
+      formObject={image}
+      setFormObject={setImage}
+      handleChange={handleChange}
       onSubmit={handleSubmit}
-    >
-    
-    </RequestForm>
+    />
   );
 }
 

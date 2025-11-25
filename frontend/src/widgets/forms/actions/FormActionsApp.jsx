@@ -1,53 +1,63 @@
-import { useEffect, useState } from "react";
-import RequestForm from "../components/RequestForm.jsx";
-import CustomInput from "../components/CustomInput.jsx";
-import CustomSelect from "../components/CustomSelect.jsx";
-
-import { useTranslation } from "react-i18next";
-import { RepoModel } from "../../../features/deployments/repos/RepoModel.js";
-import { useCreateRepo } from "../../../features/deployments/repos/hooks.js";
+// src/views/deployments/forms/FormActionsApp.jsx
 import { useAppState } from "../../../context/AppStateContext.jsx";
+import {
+  useUpdateApp,
+  useDeleteApp,
+} from "../../../features/deployments/apps/hooks.js";
+import ActionsForm from "../components/ActionForm.jsx";
 
-export function FormActionsApp() {
-  const { t } = useTranslation();
-  const { setForm } = useAppState();
+export default function FormActionsApp({ onRequestClose }) {
+  const { formObject } = useAppState();
 
-  const [repo, setRepo] = useState(new RepoModel());
+  const updateApp = useUpdateApp();
+  const deleteApp = useDeleteApp();
 
-  const handleChange = (field, value) => {
-    const updated = new RepoModel(repo.toJSON());
-    updated[field] = value;
-    setRepo(updated);
+  const inputList = [
+    { label: "name", valueKey: "name" },
+    { label: "domain", valueKey: "domain" },
+    { label: "image", valueKey: "image" },
+    // si luego quieres, aquí podrías mostrar locations como JSON o similar
+  ];
+
+  const handleSubmit = () => {
+    if (!formObject?.id) return;
+
+    updateApp.mutate(
+      {
+        pathParams: { id: formObject.id },
+        req: formObject,
+      },
+      {
+        onSuccess: () => {
+          onRequestClose?.();
+        },
+      }
+    );
   };
 
-  // Enviar formulario
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("[FormActionsApp] submit fired");
-    try {
-        // API request
-      const response = await useCreateRepo(repo);
-      console.log("Responose:", response);
+  const deleteAppFn = () => {
+    if (!formObject?.id) return;
 
-    // Cleaning Form
-      const reset = new RepoModel();
-      setRepo(reset);
-      setForm("none");
-
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-    }
+    deleteApp.mutate(
+      { pathParams: { id: formObject.id } },
+      {
+        onSuccess: () => {
+          onRequestClose?.();
+        },
+        onError: (err) => {
+          console.error("Delete app failed:", err);
+        },
+      }
+    );
   };
 
   return (
-    <RequestForm
-      title={t("addRepo")}
-      button_str={t("submit")}
+    <ActionsForm
+      title="app"
+      inputList={inputList}
       onSubmit={handleSubmit}
-    >
-    
-    </RequestForm>
+      onDelete={deleteAppFn}
+      onRequestClose={onRequestClose}
+    />
   );
 }
-
-export default FormActionsApp;

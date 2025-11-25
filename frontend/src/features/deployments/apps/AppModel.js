@@ -1,4 +1,3 @@
-
 // AppModel.js
 class AppModel {
   #data = {
@@ -10,7 +9,15 @@ class AppModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.name      = initialData.name      ?? this.#data.name;
+    this.#data.domain    = initialData.domain    ?? this.#data.domain;
+    if (initialData.locations !== undefined) {
+      this.#data.locations = initialData.locations ?? this.#data.locations;
+    }
+    this.#data.image     = initialData.image     ?? this.#data.image;
   }
 
   // Getters
@@ -49,10 +56,10 @@ class AppModel {
 
   toEditPayload() {
     const p = {};
-    if (this.#data.name) p.name = this.#data.name;
-    if (this.#data.domain) p.domain = this.#data.domain;
+    if (this.#data.name)      p.name      = this.#data.name;
+    if (this.#data.domain)    p.domain    = this.#data.domain;
     if (this.#data.locations) p.locations = this.#data.locations;
-    if (this.#data.image) p.image = this.#data.image;
+    if (this.#data.image)     p.image     = this.#data.image;
     return p;
   }
 
@@ -77,4 +84,3 @@ class AppModel {
 }
 
 export { AppModel };
-

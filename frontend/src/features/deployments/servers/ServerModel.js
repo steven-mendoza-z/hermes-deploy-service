@@ -12,9 +12,16 @@ class ServerModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.name = initialData.name ?? this.#data.name;
+    this.#data.ip = initialData.ip ?? this.#data.ip;
+    this.#data.email = initialData.email ?? this.#data.email;
+    this.#data.project = initialData.project ?? this.#data.project;
+    this.#data.region = initialData.region ?? this.#data.region;
+    this.#data.ssh_key = initialData.ssh_key ?? this.#data.ssh_key;
   }
-
   // Getters
   get id() { return this.#data.id; }
   get name() { return this.#data.name; }
@@ -62,7 +69,7 @@ class ServerModel {
     if (this.#data.name) p.name = this.#data.name;
     if (this.#data.ip) p.ip = this.#data.ip;
     if (this.#data.email) p.email = this.#data.email;
-    if (this.#data.project) p.email = this.#data.project;
+    if (this.#data.project) p.project = this.#data.project;
     if (this.#data.region) p.region = this.#data.region;
     if (this.#data.ssh_key) p.ssh_key = this.#data.ssh_key;
     return p;

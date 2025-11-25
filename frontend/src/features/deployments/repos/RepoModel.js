@@ -8,7 +8,15 @@ class RepoModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.name   = initialData.name   ?? this.#data.name;
+    this.#data.url    = initialData.url    ?? this.#data.url;
+    // soporta tanto envVars como enVals (por compatibilidad)
+    if (initialData.envVars !== undefined || initialData.enVals !== undefined) {
+      this.#data.envVars = initialData.envVars ?? initialData.enVals ?? this.#data.envVars;
+    }
   }
 
   // Getters
@@ -43,8 +51,8 @@ class RepoModel {
 
   toEditPayload() {
     const p = {};
-    if (this.#data.name) p.name = this.#data.name;
-    if (this.#data.url) p.url = this.#data.url;
+    if (this.#data.name)    p.name    = this.#data.name;
+    if (this.#data.url)     p.url     = this.#data.url;
     if (this.#data.envVars) p.envVars = this.#data.envVars;
     return p;
   }
@@ -69,5 +77,3 @@ class RepoModel {
 }
 
 export { RepoModel };
-
-

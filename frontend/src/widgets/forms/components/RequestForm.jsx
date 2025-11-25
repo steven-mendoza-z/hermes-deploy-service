@@ -1,25 +1,30 @@
-import { useAppState } from "../../../context/AppStateContext";
+import { useTranslation } from "react-i18next";
+import CustomInput from "../components/CustomInput.jsx";
 
-export function RequestForm({ title, button_str, children, onSubmit }) {
-
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    onSubmit(e);            
-  };
+export default function RequestForm({ title, inputList, formObject, handleChange, onSubmit, button_str }) {
+  const { t } = useTranslation();
 
   return (
-    <form onSubmit={onSubmitHandler} className="full-view flex column-left requestForm">
-      <h3 className="h4">{title}</h3>
-      
-      <div className="full-view column-left requestForm-content gap20">
-        {children}
+    <form onSubmit={onSubmit} className="full-view column-left gap20 actionsForm">
+      <p className="h3 full-w">{title}</p>
+
+      <div className="full-view column-left gap10">
+        {inputList.map(({ label, valueKey, validations }) => (
+          <CustomInput
+            key={valueKey}
+            label={t(label)}
+            placeholder={t(label)}
+            value={formObject?.[valueKey] || ""}
+            onChange={(v) => handleChange(valueKey, v)} // ⚡ pasar key + value
+            validations={validations}
+          />
+
+        ))}
       </div>
 
       <div className="full-w row-right">
-        <button type="submit" className="h5">{button_str}</button>
+        <button type="submit" className="hl1 h5">{button_str || t("submit")}</button>
       </div>
     </form>
   );
 }
-
-export default RequestForm;

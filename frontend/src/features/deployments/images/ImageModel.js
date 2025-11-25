@@ -9,7 +9,13 @@ class ImageModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.name       = initialData.name       ?? this.#data.name;
+    this.#data.url        = initialData.url        ?? this.#data.url;
+    this.#data.repository = initialData.repository ?? this.#data.repository;
+    this.#data.branch     = initialData.branch     ?? this.#data.branch;
   }
 
   // Getters
@@ -48,10 +54,10 @@ class ImageModel {
 
   toEditPayload() {
     const p = {};
-    if (this.#data.name) p.name = this.#data.name;
-    if (this.#data.url) p.url = this.#data.url;
+    if (this.#data.name)       p.name       = this.#data.name;
+    if (this.#data.url)        p.url        = this.#data.url;
     if (this.#data.repository) p.repository = this.#data.repository;
-    if (this.#data.branch) p.branch = this.#data.branch;
+    if (this.#data.branch)     p.branch     = this.#data.branch;
     return p;
   }
 

@@ -1,29 +1,13 @@
 import { useEffect } from "react";
 import { useAppState } from "../../../context/AppStateContext.jsx";
-import { useUpdateServer } from "../../../features/deployments/servers/hooks.js";
+import { useDeleteServer, useUpdateServer } from "../../../features/deployments/servers/hooks.js";
 import ActionsForm from "../components/ActionForm.jsx";
 
-export default function FormActionsServer({ server }) { // server: objeto con los datos actuales
+export default function FormActionsServer({ onRequestClose }) { 
   const { formObject, setFormObject } = useAppState();
-  const { mutateAsync: updateServer } = useUpdateServer(); // <--- usar mutateAsync
 
-    const handleSubmit = async (data) => {
-    try {
-        if (!data.id) throw new Error("Missing server ID");
-
-        console.log("Sending to updateServer:", data);
-
-        const response = await updateServer({
-        pathParams: { id: data.id },
-        body: data
-        });
-
-        console.log("Server updated:", response);
-    } catch (error) {
-        console.error(error);
-    }
-    };
-
+  const updateServer = useUpdateServer();
+  const deleteServer = useDeleteServer();
 
   const inputList = [
     { label: "name", valueKey: "name" },
@@ -33,5 +17,43 @@ export default function FormActionsServer({ server }) { // server: objeto con lo
     { label: "projectId", valueKey: "project" },
   ];
 
-  return <ActionsForm title="server" inputList={inputList} onSubmit={handleSubmit} />;
+  const handleSubmit = () => {
+    if (!formObject?.id) return;
+
+    updateServer.mutate({
+      pathParams: { id: formObject.id },
+      req: formObject,
+    }, {
+      onSuccess: () => {
+        onRequestClose?.();
+      }
+    });
+  };
+
+    const deleteServerFn = () => {
+    if (!formObject?.id) return;
+
+    deleteServer.mutate(
+        { pathParams: { id: formObject.id } },
+        {
+        onSuccess: () => {
+            onRequestClose?.(); // cerrar solo después de éxito
+        },
+        onError: (err) => {
+            console.error("Delete failed:", err);
+        },
+        }
+    );
+    };
+
+
+  return (
+    <ActionsForm
+      title="server"
+      inputList={inputList}
+      onSubmit={handleSubmit}
+      onDelete={deleteServerFn}
+      onRequestClose={onRequestClose}
+    />
+  );
 }

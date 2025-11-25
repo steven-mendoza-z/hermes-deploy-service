@@ -1,3 +1,4 @@
+// AppLocationModel.js
 class AppLocationModel {
   #data = {
     id: "",
@@ -6,7 +7,12 @@ class AppLocationModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.server = initialData.server ?? this.#data.server;
+    // port puede ser 0, así que usamos ?? (0 es válido)
+    this.#data.port   = initialData.port ?? this.#data.port;
   }
 
   // Getters
@@ -37,8 +43,8 @@ class AppLocationModel {
 
   toEditPayload() {
     const p = {};
-    if (this.#data.server) p.server = this.#data.server;
-    if (this.#data.port != null) p.port = this.#data.port;
+    if (this.#data.server)           p.server = this.#data.server;
+    if (this.#data.port != null)     p.port   = this.#data.port;
     return p;
   }
 

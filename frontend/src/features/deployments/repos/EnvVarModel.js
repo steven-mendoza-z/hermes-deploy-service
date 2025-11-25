@@ -7,7 +7,11 @@ class EnvVarModel {
   };
 
   constructor(initialData = {}) {
-    Object.assign(this.#data, initialData);
+    if (initialData.id !== undefined) {
+      this.#data.id = initialData.id;
+    }
+    this.#data.name  = initialData.name  ?? this.#data.name;
+    this.#data.value = initialData.value ?? this.#data.value;
   }
 
   // Getters
@@ -38,7 +42,7 @@ class EnvVarModel {
 
   toEditPayload() {
     const p = {};
-    if (this.#data.name) p.name = this.#data.name;
+    if (this.#data.name)  p.name  = this.#data.name;
     if (this.#data.value) p.value = this.#data.value;
     return p;
   }

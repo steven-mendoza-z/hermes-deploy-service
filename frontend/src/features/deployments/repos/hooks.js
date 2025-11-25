@@ -6,8 +6,8 @@ import { RepoModel } from "./RepoModel";
 const api = new ApiClient(DEPLOY_API_URL);
 
 export const {
-  useList:   useRepos,      // -> data: [{ value, label }]
-  useDetail: useRepo,       // -> data: { value, label } (si asOptions=true)
+  useList:   useRepos,
+  useDetail: useRepo,
   useCreate: useCreateRepo,
   useUpdate: useUpdateRepo,
   useDelete: useDeleteRepo,
@@ -17,5 +17,12 @@ export const {
   resource: "repos",
   mapOne: (raw) => RepoModel.fromAPI(raw),
   // mapMany por defecto usa mapOne
-  // asOptions: true, // esto hace que los hooks expongan value/label
+
+  // 👇 Igual que en servers: exposición como POJO
+  listAdapter: (arr) =>
+    Array.isArray(arr)
+      ? arr.map((repoModel) =>
+          repoModel?.toJSON ? repoModel.toJSON() : repoModel
+        )
+      : [],
 });

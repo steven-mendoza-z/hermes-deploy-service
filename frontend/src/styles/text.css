@@ -38,7 +38,7 @@
 
 .h5 {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     /* color: var(--text-main); */
 }
 .h6 {
@@ -104,7 +104,7 @@
     }
 
     div .h5 {
-        font-size: 11px;
+        font-size: 12px;
         /* color: var(--text-main); */
     }
 

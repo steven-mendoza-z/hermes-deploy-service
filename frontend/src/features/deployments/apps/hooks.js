@@ -6,8 +6,8 @@ import { AppModel } from "./AppModel";
 const api = new ApiClient(DEPLOY_API_URL);
 
 export const {
-  useList:   useApps,      // -> data: [{ value, label }]
-  useDetail: useApp,       // -> data: { value, label } (si asOptions=true)
+  useList:   useApps,
+  useDetail: useApp,
   useCreate: useCreateApp,
   useUpdate: useUpdateApp,
   useDelete: useDeleteApp,
@@ -17,5 +17,11 @@ export const {
   resource: "apps",
   mapOne: (raw) => AppModel.fromAPI(raw),
   // mapMany por defecto usa mapOne
-  // asOptions: true, // esto hace que los hooks expongan value/label
+
+  listAdapter: (arr) =>
+    Array.isArray(arr)
+      ? arr.map((appModel) =>
+          appModel?.toJSON ? appModel.toJSON() : appModel
+        )
+      : [],
 });

@@ -6,7 +6,7 @@ export function CustomInput({
   value,
   onChange,
   type = "text",
-  required = false,
+  validations = {}, // <-- nuevo
   className = "",
   labelClassName = "",
   fieldClassName = "",
@@ -18,9 +18,8 @@ export function CustomInput({
       {label && (
         <label className={`customField-label row-left ${labelClassName}`}>
           {label}
-          {required && <span className="requiredMark">*  </span>}
-          {required && <span className="requiredText">({t("required")})</span>}
-
+          {validations.required && <span className="requiredMark">*  </span>}
+          {validations.required && <span className="requiredText">({t("required")})</span>}
         </label>
       )}
       <input
@@ -28,7 +27,7 @@ export function CustomInput({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        required={required}
+        {...validations} // <-- aplica todas las validaciones del input
         className={`customInput ${fieldClassName}`}
       />
     </div>
