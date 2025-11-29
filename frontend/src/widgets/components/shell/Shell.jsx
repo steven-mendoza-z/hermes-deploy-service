@@ -5,6 +5,7 @@ import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { useAppState } from "../../../context/AppStateContext";
 import { useTranslation } from "react-i18next";
+import { DEPLOY_API_DOMAIN } from "../../../config/services";
 
 const TerminalContainer = forwardRef(function TerminalContainer(_, ref) {
   return (
@@ -63,7 +64,7 @@ export function useXterm(containerRef, { enabled, serverId, serverName }) {
     };
     window.addEventListener("resize", handleResize);
 
-    const wsUrl = `ws://localhost:8000/ws/shell/${serverId}/`;
+    const wsUrl = `ws://${DEPLOY_API_DOMAIN}/ws/shell/${serverId}/`;
     const socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
