@@ -113,13 +113,15 @@ jobs:
             echo "GOOGLE_CLIENT_ID=''" >> .env.prod
             echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
               
+            
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.prod down
-            docker compose --env-file .env.prod up -d --build
-            docker exec hermes_backend python manage.py makemigrations registry
-            docker exec hermes_backend python manage.py migrate
-            docker exec hermes_backend python manage.py makemigrations registry
-            docker exec hermes_backend python manage.py migrate
+            docker compose --env-file .env.prod up -d --build --scale backend=3
+
+            docker compose --env-file .env.prod exec -T backend python manage.py makemigrations
+            docker compose --env-file .env.prod exec -T backend python manage.py migrate
+            docker compose --env-file .env.prod exec -T backend python manage.py makemigrations registry
+            docker compose --env-file .env.prod exec -T backend python manage.py migrate registry
 
   deploy-prod:
     name: Deploy to Production Server
@@ -170,8 +172,9 @@ jobs:
 
             docker network create nginx-proxy-net || true
             docker compose --env-file .env.prod down
-            docker compose --env-file .env.prod up -d --build
-            docker exec hermes_backend python manage.py makemigrations registry
-            docker exec hermes_backend python manage.py migrate
-            docker exec hermes_backend python manage.py makemigrations registry
-            docker exec hermes_backend python manage.py migrate
+            docker compose --env-file .env.prod up -d --build --scale backend=3
+            
+            docker compose --env-file .env.prod exec -T backend python manage.py makemigrations
+            docker compose --env-file .env.prod exec -T backend python manage.py migrate
+            docker compose --env-file .env.prod exec -T backend python manage.py makemigrations registry
+            docker compose --env-file .env.prod exec -T backend python manage.py migrate registry
