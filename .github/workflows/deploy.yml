@@ -68,7 +68,7 @@ jobs:
 
   deploy-dev:
     name: Deploy to Development Server
-    # needs: build-and-test
+    needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
@@ -123,7 +123,7 @@ jobs:
 
   deploy-prod:
     name: Deploy to Production Server
-    # needs: build-and-test
+    needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
