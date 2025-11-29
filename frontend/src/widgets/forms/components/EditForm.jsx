@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import CustomInput from "../components/CustomInput.jsx";
+import CustomInput from "./CustomInput.jsx";
 import { useAppState } from "../../../context/AppStateContext.jsx";
 
-export default function ActionsForm({ title, inputList, onSubmit, onDelete, onRequestClose }) {
+export default function EditForm({ title, inputList, onSubmit, onDelete, onRequestClose }) {
   const { t } = useTranslation();
   const { formObject, setFormObject } = useAppState();
 
@@ -25,7 +25,7 @@ export default function ActionsForm({ title, inputList, onSubmit, onDelete, onRe
 
 
   return (
-    <form onSubmit={handleSubmit} className="full-view column-left gap20 actionsForm">
+    <form onSubmit={handleSubmit} className="full-view column-left gap20 editForm">
       <p className="h3 full-w">{`${t(title)} (${formObject?.name || ""})`}</p>
 
       <div className="full-view column-left gap10">

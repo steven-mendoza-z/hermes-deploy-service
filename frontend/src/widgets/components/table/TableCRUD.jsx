@@ -1,3 +1,4 @@
+// src/widgets/components/TableCRUD.jsx
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Table from "./Table";
@@ -12,13 +13,12 @@ export function TableCRUD({
   initialData = [],
   buttonName = "add",
   onRowClick,
+  onSelectedClick,
+  onDeselect,
 }) {
   const { t } = useTranslation();
-
-  // estado interno para la tabla (filtrado)
   const [data, setData] = useState(initialData || []);
 
-  // sincroniza cuando cambian los datos originales (backend)
   useEffect(() => {
     setData(initialData || []);
   }, [initialData]);
@@ -27,7 +27,6 @@ export function TableCRUD({
     {
       value: id,
       label: t(table_name),
-      // 👇 base de datos completa para búsqueda
       data: initialData || [],
       addFormName,
       searchKeys,
@@ -43,10 +42,13 @@ export function TableCRUD({
         setData={setData}
         buttonName={buttonName}
       />
+
       <Table
         data={data}
         columns={columns.filter(Boolean)}
         onRowClick={onRowClick}
+        onSelectedClick={onSelectedClick}
+        onDeselect={onDeselect}
       />
     </div>
   );

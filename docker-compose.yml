@@ -1,8 +1,8 @@
 services:  
   backend:
     build: ./backend
-    container_name: "${PROJECT_NAME}_backend"
-    command: "gunicorn backend.wsgi:application --bind 0.0.0.0:${BACKEND_PORT}"
+    # container_name: "${PROJECT_NAME}_backend"
+    command: daphne -b 0.0.0.0 -p ${BACKEND_PORT} backend.asgi:application
     environment:
       VIRTUAL_HOST: ${BACKEND_DOMAIN}
       VIRTUAL_PORT: ${BACKEND_PORT} 
@@ -12,6 +12,7 @@ services:
       - .env.prod
     depends_on:
       - postgres
+      - redis
     restart: always
     networks:
       - nginx-proxy-net
@@ -27,6 +28,13 @@ services:
     networks:
       - nginx-proxy-net
 
+  redis:
+    image: redis:7-alpine
+    container_name: "${PROJECT_NAME}_redis"
+    restart: always
+    networks:
+      - nginx-proxy-net
+
   frontend:
     build:
       context: ./frontend
@@ -39,7 +47,6 @@ services:
       LETSENCRYPT_HOST: ${DOMAIN}
       LETSENCRYPT_EMAIL: ${EMAIL}
       REACT_APP_API_URL: ${BACKEND_DOMAIN}
-
     depends_on:
       - backend
     restart: always
@@ -52,4 +59,3 @@ volumes:
 networks:
   nginx-proxy-net:
     external: true
-

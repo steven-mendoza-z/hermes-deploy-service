@@ -54,21 +54,18 @@ body #root .bottombar{
 
 .shell {
   width: 100%;
-  background-color: var(--bg);
+  height: 100%;
+  background-color: var(--terminal);
   border-radius: 10px 10px 0 0;
   box-shadow: var(--shadow);
   overflow: hidden;               /* NECESARIO para ocultar contenido al cerrar */
   transition: max-height .1s ease-in;
+  position:sticky;
 }
 
 /* Altura cuando está cerrado: solo header */
 .shell.closed {
   max-height: 35px; 
-}
-
-/* Altura cuando está abierto: deja espacio suficiente para el terminal */
-.shell.open {
-  max-height: 500px; /* ajústalo a lo que necesites */
 }
 
 .shell-header {
@@ -81,9 +78,11 @@ body #root .bottombar{
 /* Para tener efecto de aparecer deslizando */
 .shell-content {
   padding: 15px 5px 10px 15px;
+  padding-bottom: 40px;
   opacity: 1;
   transform: translateY(0);
   transition: opacity .5s ease-out, transform .1s ease-out forwards;
+  background-color: var(--terminal);
 }
 
 .shell.closed .shell-content {
@@ -94,24 +93,13 @@ body #root .bottombar{
 
 
 .shell-content .xterm-viewport::-webkit-scrollbar-thumb {
-  background-color: #444;
+  background-color: var(--terminal);
   border-radius: 4px;
 }
 
 
-/* @media (max-width: 768px) {
-    .shell-content {
-        animation: slideUp 0.35s ease-out;
-    }
-
-    .shell.closing, .closing .shell-content{
-        animation: fadeOut .2s ease-out forwards;
-    }
-
-    .closing .shell-content{
-        animation: slideDown .25s ease-in forwards;
-    }
-
-    .shell-content{
-    }
-} */
+@media (max-width: 768px) {
+  .shell.open {
+    max-height: 500px;
+  }
+}

@@ -5,7 +5,7 @@ export default function RequestForm({ title, inputList, formObject, handleChange
   const { t } = useTranslation();
 
   return (
-    <form onSubmit={onSubmit} className="full-view column-left gap20 actionsForm">
+    <form onSubmit={onSubmit} className="full-view column-left gap20 editForm">
       <p className="h3 full-w">{title}</p>
 
       <div className="full-view column-left gap10">

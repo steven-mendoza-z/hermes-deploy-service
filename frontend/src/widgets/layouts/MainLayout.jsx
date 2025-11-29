@@ -28,7 +28,9 @@ export default function Layout() {
         className=""
       />
 
-      <div className='page-container'>
+      <div className='content-container'>
+        <Shell/>
+
         <div className='page-content full-view'>
           <header>
             <Header />
@@ -39,13 +41,14 @@ export default function Layout() {
           </main>
         </div>
 
-        <Shell/>
 
         {/* <footer>
           <Footer />
         </footer> */}
+
       </div>
-        <FormLayout />
+
+      <FormLayout />
 
     </>
   );

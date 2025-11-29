@@ -1,38 +1,71 @@
+// src/widgets/pages/logged/Repos.jsx
 import { useTranslation } from "react-i18next";
-import TableCRUD from "../../components/TableCRUD";
-import { useRepos } from "../../../features/deployments/repos/hooks";
+import { useRepos, useDeleteRepo } from "../../../features/deployments/repos/hooks";
 import { useAppState } from "../../../context/AppStateContext";
+import ResponsiveTable from "../../components/table/ResponsiveTable";
 
-export function RepositoriesPage() {
+export function ReposPage() {
   const { t } = useTranslation();
-  const { setAdvancedForm } = useAppState();
+  const { setAdvancedForm, setFormObject } = useAppState();
+  const { data: repos = [] } = useRepos();
+  const deleteRepo = useDeleteRepo();
 
-  const {
-    data: repos = [],
-    isLoading,
-    isError,
-    error,
-  } = useRepos();
+  const columns = [
+    {
+      key: "name",
+      header: t("name"),
+      sortable: true,
+      width: "30%",
+    },
+    {
+      key: "url",
+      header: t("url"),
+      sortable: true,
+      width: "40%",
+    }
+  ];
 
-  console.log("Repos fetched:", repos);
+  const desktopMenuActions = [
+    {
+      label: t("edit"),
+      // icon: "edit.png",
+      // color: "",
+      onClick: (row) => {
+        setFormObject(row);
+        setAdvancedForm("editRepo", row);
+      },
+    },
+    {
+      label: t("delete"),
+      // icon: "delete2.png",
+      // color: "danger",
+      onClick: (row) => {
+        if (!row?.id) return;
+        deleteRepo.mutate(
+          { pathParams: { id: row.id } },
+        );
+      },
+    },
+  ];
 
   return (
-    <div className="full-view flex column-left gap20">
-      <TableCRUD
-        id="repositories"
-        table_name="repositories"
-        addFormName="addRepository"
-        searchKeys={["name", "url", "branch", "app"]}
-        columns={[
-          { key: "name", header: t("name"), sortable: true, width: "25%" },
-          { key: "url", header: t("url"), sortable: true, width: "40%" },
-        ]}
-        initialData={repos}
-        // 👇 abre FormActionsRepo
-        onRowClick={(row) => setAdvancedForm("actionsRepo", row)}
-      />
-    </div>
+    <ResponsiveTable
+      id="repos"
+      table_name="repositories"
+      addFormName="addRepo"
+      searchKeys={["name", "url", "branch"]}
+      columns={columns}
+      initialData={repos}
+      // mobile: abrir directamente el form de acciones
+      mobileAction={(row) => {
+        setFormObject(row);
+        setAdvancedForm("actionsRepo", row);
+      }}
+      // desktop: usar menú flotante con estas acciones
+      desktopMenuTitle={t("repository")}
+      desktopMenuActions={desktopMenuActions}
+    />
   );
 }
 
-export default RepositoriesPage;
+export default ReposPage;

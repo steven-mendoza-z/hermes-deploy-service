@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useAppState } from "../../context/AppStateContext";
+import { useAppState } from "../../../context/AppStateContext";
 import { useTranslation } from "react-i18next";
-import CustomSelect from "../forms/components/CustomSelect";
+import CustomSelect from "../../forms/components/CustomSelect";
 
 export function useDebounce(value, delay = 300) {
   const [debounced, setDebounced] = useState(value);

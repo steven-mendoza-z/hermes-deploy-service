@@ -10,14 +10,13 @@ export function AppStateProvider({ children }) {
   const [form, _setForm] = useState("none");
   const [formObject, setFormObject] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedServer, setSelectedServer] = useState(null);
 
-  // ⬅️ Aquí redefinimos setForm para que SIEMPRE limpie el formObject
   const setForm = (newForm) => {
     _setForm(newForm);
     setFormObject(null); // limpiar object siempre
   };
 
-  // ⬅️ Setter avanzado (form + object juntos)
   const setAdvancedForm = (newForm, newObject = null) => {
     _setForm(newForm);
     setFormObject(newObject);
@@ -43,6 +42,8 @@ export function AppStateProvider({ children }) {
         setForm, 
         setFormObject,         // ← setForm limpia object
         setAdvancedForm,  // ← setAdvancedForm controla ambos
+        selectedServer,
+        setSelectedServer,
       }}
     >
       {children}

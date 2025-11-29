@@ -1,6 +1,6 @@
 servers:
-  host-server:
-    server_name: host-server
+  hermes-server:
+    server_name: hermes-server
     server_credentials: .env.hermes
     env: .env.hermes
 

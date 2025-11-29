@@ -40,6 +40,8 @@ jobs:
   #         echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
   #         echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
   #         echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
+  #         echo "REDIS_HOST=redis" >> .env.prod
+  #         echo "REDIS_PORT=6379" >> .env.prod
 
   #         echo "GOOGLE_CLIENT_ID=''" >> .env.prod
   #         echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
@@ -105,6 +107,8 @@ jobs:
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
+            echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env.prod
+            echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env.prod
 
             echo "GOOGLE_CLIENT_ID=''" >> .env.prod
             echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod
@@ -158,6 +162,8 @@ jobs:
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env.prod
+            echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env.prod
+            echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env.prod
 
             echo "GOOGLE_CLIENT_ID=''" >> .env.prod
             echo "GOOGLE_CLIENT_SECRET=''" >> .env.prod

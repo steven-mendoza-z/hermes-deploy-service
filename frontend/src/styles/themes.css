@@ -82,9 +82,15 @@ body.dark {
   --text-sec: hsl(0 0 60%); 
 
   --highlight1: #1D63ED;
-  --highlight2: #dee6ec;
-  --highlight3: #a8cae0;
-  --highlight4: hsl(153, 84%, 32%);
+  --highlight2: #202735;
+  --highlight3: #283359;
+  --highlight4: #2a3589;
+  --highlight1: #1D63ED;
+  --highlight2: #292c35;
+  --highlight3: #283359;
+  --highlight4: #2a3589;
+
+  --terminal: hsl(247, 5%, 15%);
 
   --text-highlight: hsl(0 0 25%); 
 }
@@ -104,8 +110,11 @@ body.light {
 
   --highlight1: #1D63ED;
   --highlight2: #dee6ec;
-  --highlight3: #a8cae0;
-  --highlight4: hsl(153, 84%, 32%);
+  --highlight3: #a8b0e0;
+  --highlight3: #c6d4f0;
+  --highlight4: #a6bae1;
+
+  --terminal: #292c35;
 
   --text-highlight: hsl(0 0 25%); 
 }

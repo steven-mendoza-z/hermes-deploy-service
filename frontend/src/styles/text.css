@@ -1,3 +1,6 @@
+.text-hl {
+    color: var(--highlight1);
+}
 
 .h1 {
     /* font-size: 32px; */

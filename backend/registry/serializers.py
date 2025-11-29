@@ -52,11 +52,10 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = ["id", "name", "url", "repository", "branch"]
+        fields = ["id", "name", "url", "repository", "branch", "version"]
 
 
 class ServerSerializer(serializers.ModelSerializer):
-    ssh_key = serializers.CharField(write_only=True, required=False, allow_blank=True)
     # user = id de User (opcional)
     # user = serializers.PrimaryKeyRelatedField(
     #     queryset=Server._meta.get_field("user").remote_field.model.objects.all(),
@@ -66,7 +65,7 @@ class ServerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Server
-        fields = ["id", "name", "ip", "email", "region", "project", "ssh_key"]
+        fields = ["id", "name", "ip", "email", "region", "project"]
 
 
 # deploy/serializers.py

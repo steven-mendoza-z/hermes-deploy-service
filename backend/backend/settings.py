@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     # 'django.contrib.gis',
     
+    'channels',     
+     
     'registry', 
     # 'user_auth', 
 
@@ -83,6 +85,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = 'backend.asgi.application' 
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(
+                env("REDIS_HOST", default="redis"),
+                int(env("REDIS_PORT", default=6379)),
+            )],
+        },
+    },
+}
 
 # sqlite: default
 # postgre

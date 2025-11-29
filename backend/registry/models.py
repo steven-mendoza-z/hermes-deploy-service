@@ -16,7 +16,6 @@ class Server(models.Model):
     email = models.EmailField(blank=True)
     region = models.CharField(max_length=100, blank=True)
     project = models.CharField(max_length=255, blank=True)
-    ssh_key = models.TextField(blank=True)
 
     def __str__(self):
         return self.name or self.email or f"Server {self.pk}"
@@ -54,6 +53,7 @@ class Image(models.Model):
         related_name="images",
     )
     branch = models.CharField(max_length=255, blank=True)
+    version = models.CharField(max_length=63, blank=True)
 
     def __str__(self):
         return self.name

@@ -50,6 +50,29 @@
 .table .row-odd {
   background-color: var(--highlight2); /* Verde oscuro */
 }
+.table tbody tr.row-selected {
+  background-color: var(--highlight4);
+}
+
+
+.dark .table tbody tr{
+  color: var(--text-main);
+}
+.dark .table tbody tr:hover {
+  background-color: var(--highlight3); /* Verde muy claro al pasar el mouse */
+}
+
+.dark .table .row-even {
+  background-color: var(--highlight2);
+}
+
+.dark .table .row-odd {
+  background-color: #24252a;
+}
+.dark .table tbody tr.row-selected {
+  background-color: var(--highlight4);
+}
+
 
 .sort-icon {
   width: 15px;
@@ -145,13 +168,34 @@
     border-radius: 100%;   
 }
 
-.on {
-    background-color: #51d29f;
+.server-status {
+  background-color: var(--text-sec);
 }
-.off {
-    background-color: #d36985;
+.server-status.on {
+  background-color: #51d29f;
+}
+.server-status.off {
+  background-color: #d36985;
 }
 
+.see-button {
+  min-width: 15px;
+  width: 15px;
+  min-height: 15px;
+  height: 15px;
+}
+.see-button-container {
+  width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-null {
+  width: 8px;
+  height: 8px;
+}
 
 @media (max-width: 768px) {
   div .table {
@@ -168,4 +212,52 @@
   div .searchbar-add{
     font-size: 11px;
   }
+
+  .see-button {
+    min-width: 12px;
+    width: 12px;
+    min-height: 12px;
+    height: 12px;
+  }
+
+}
+
+.floating-row-menu .title-container {
+  padding-bottom: 7px;
+  border-bottom: solid 2px var(--highlight1);
+}
+
+.floating-row-menu p {
+  padding: 0px 10px;
+}
+
+.floating-row-menu .title {
+  color: var(--highlight1);
+}
+
+.floating-row-menu-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--highlight2);
+  border-radius: 10px;
+  padding: 10px 0px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  min-width: 160px;
+}
+
+.floating-row-menu-card .menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  /* color: var(); */
+  padding: 13px 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border-radius: 0px;
+}
+
+.floating-row-menu-card .menu-item:hover {
+  background: var(--highlight3);
 }

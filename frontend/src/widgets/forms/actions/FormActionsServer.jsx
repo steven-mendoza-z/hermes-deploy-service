@@ -1,59 +1,48 @@
-import { useEffect } from "react";
 import { useAppState } from "../../../context/AppStateContext.jsx";
-import { useDeleteServer, useUpdateServer } from "../../../features/deployments/servers/hooks.js";
-import ActionsForm from "../components/ActionForm.jsx";
+import ActionsForm from "../components/ActionsForm.jsx";
+import { useDeleteServer } from "../../../features/deployments/servers/hooks";
 
-export default function FormActionsServer({ onRequestClose }) { 
-  const { formObject, setFormObject } = useAppState();
-
-  const updateServer = useUpdateServer();
+export default function FormActionsServer({ onRequestClose }) {
+  const { formObject, setAdvancedForm } = useAppState();
   const deleteServer = useDeleteServer();
 
-  const inputList = [
-    { label: "name", valueKey: "name" },
-    { label: "ipAddress", valueKey: "ip" },
-    { label: "region", valueKey: "region" },
-    { label: "email", valueKey: "email" },
-    { label: "projectId", valueKey: "project" },
-  ];
-
-  const handleSubmit = () => {
-    if (!formObject?.id) return;
-
-    updateServer.mutate({
-      pathParams: { id: formObject.id },
-      req: formObject,
-    }, {
-      onSuccess: () => {
-        onRequestClose?.();
-      }
-    });
-  };
-
-    const deleteServerFn = () => {
+  const handleDelete = () => {
     if (!formObject?.id) return;
 
     deleteServer.mutate(
-        { pathParams: { id: formObject.id } },
-        {
+      { pathParams: { id: formObject.id } },
+      {
         onSuccess: () => {
-            onRequestClose?.(); // cerrar solo después de éxito
+          console.log("Server deleted:", formObject.id);
+          onRequestClose?.();
         },
         onError: (err) => {
-            console.error("Delete failed:", err);
+          console.error("Error deleting server:", err);
         },
-        }
+      }
     );
-    };
+  };
 
+  const actions = [
+    {
+      label: "delete",
+      onClick: handleDelete,
+      icon: "delete2.png",
+      color: "",
+    },
+    {
+      label: "edit",
+      onClick: () => setAdvancedForm("editServer", formObject),
+      icon: "edit.png",
+      color: "",
+    },
+    {
+      label: "terminal",
+      onClick: () => setAdvancedForm("editServer", formObject),
+      icon: "terminal.png",
+      color: "green",
+    },
+  ];
 
-  return (
-    <ActionsForm
-      title="server"
-      inputList={inputList}
-      onSubmit={handleSubmit}
-      onDelete={deleteServerFn}
-      onRequestClose={onRequestClose}
-    />
-  );
+  return <ActionsForm actions={actions} />;
 }

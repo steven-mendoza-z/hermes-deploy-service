@@ -1,39 +1,106 @@
+// src/widgets/pages/logged/Images.jsx
 import { useTranslation } from "react-i18next";
-import TableCRUD from "../../components/TableCRUD";
-import { useImages } from "../../../features/deployments/images/hooks";
+import {
+  useImages,
+  useDeleteImage,
+} from "../../../features/deployments/images/hooks";
 import { useAppState } from "../../../context/AppStateContext";
+import ResponsiveTable from "../../components/table/ResponsiveTable";
 
 export function ImagesPage() {
   const { t } = useTranslation();
-  const { setAdvancedForm } = useAppState();
+  const { setAdvancedForm, setFormObject } = useAppState();
 
   const {
     data: images = [],
-    isLoading,
-    isError,
-    error,
+    // isLoading,
+    // isError,
+    // error,
   } = useImages();
 
-  console.log("Images fetched:", images);
+  const deleteImage = useDeleteImage();
+
+  const sourceCell = {
+    key: "source",
+    header: t("source"),
+    sortable: false,
+    cell: (row) => (
+      <div className="full-w flex-center">
+        {row.repository} ({row.branch})
+      </div>
+    ),
+    width: "25%",
+  };
+
+  const columns = [
+    {
+      key: "name",
+      header: t("name"),
+      sortable: true,
+      width: "25%",
+    },
+    {
+      key: "version",
+      header: t("version"),
+      sortable: true,
+      width: "10%",
+    },
+    {
+      key: "url",
+      header: t("url"),
+      sortable: true,
+      width: "40%",
+    },
+    sourceCell,
+  ];
+
+  const desktopMenuActions = [
+    {
+      label: t("build"),
+      onClick: (row) => {
+        setAdvancedForm("");
+      },
+    },
+    {
+      label: t("edit"),
+      onClick: (row) => {
+        setFormObject(row);
+        setAdvancedForm("editImage", row);
+      },
+    },
+    {
+      label: t("delete"),
+      onClick: (row) => {
+        if (!row?.id) return;
+        deleteImage.mutate(
+          { pathParams: { id: row.id } },
+          {
+            onError: (err) => {
+              console.error("Error deleting image:", err);
+            },
+          }
+        );
+      },
+    },
+  ];
 
   return (
-    <div className="full-view flex column-left gap20">
-      <TableCRUD
-        id="images"
-        table_name="images"
-        addFormName="addImage"
-        searchKeys={["name", "url", "app"]}
-        columns={[
-          { key: "name", header: t("name"), sortable: true, width: "25%" },
-          { key: "version", header: t("version"), sortable: true, width: "10%" },
-          { key: "url", header: t("url"), sortable: true, width: "40%" },
-          { key: "repository", header: t("source"), sortable: true, width: "25%" },
-        ]}
-        initialData={images}
-        // 👇 abre FormActionsImage
-        onRowClick={(row) => setAdvancedForm("actionsImage", row)}
-      />
-    </div>
+    <ResponsiveTable
+      id="images"
+      table_name="images"
+      addFormName="addImage"
+      searchKeys={["name", "url", "app", "repository", "branch", "version"]}
+      columns={columns}
+      initialData={images}
+      // mobile: abre directamente el form de acciones
+      mobileAction={(row) => {
+        setFormObject(row);
+        setAdvancedForm("actionsImage", row);
+      }}
+      // desktop: menú flotante
+      desktopMenuTitle={t("image")}
+      desktopMenuActions={desktopMenuActions}
+    />
   );
 }
 

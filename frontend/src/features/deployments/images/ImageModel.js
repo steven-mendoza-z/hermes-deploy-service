@@ -6,6 +6,7 @@ class ImageModel {
     url: "",
     repository: null, // id o RepositoryModel
     branch: "",
+    version: "",      // <-- NUEVO
   };
 
   constructor(initialData = {}) {
@@ -16,6 +17,7 @@ class ImageModel {
     this.#data.url        = initialData.url        ?? this.#data.url;
     this.#data.repository = initialData.repository ?? this.#data.repository;
     this.#data.branch     = initialData.branch     ?? this.#data.branch;
+    this.#data.version    = initialData.version    ?? this.#data.version; // <-- NUEVO
   }
 
   // Getters
@@ -24,6 +26,7 @@ class ImageModel {
   get url() { return this.#data.url; }
   get repository() { return this.#data.repository; }
   get branch() { return this.#data.branch; }
+  get version() { return this.#data.version; }  // <-- NUEVO
 
   // Setters
   set id(v) { this.#data.id = v; }
@@ -31,6 +34,7 @@ class ImageModel {
   set url(v) { this.#data.url = v; }
   set repository(v) { this.#data.repository = v; }
   set branch(v) { this.#data.branch = v; }
+  set version(v) { this.#data.version = v; }  // <-- NUEVO
 
   // Serialización
   toJSON() {
@@ -40,6 +44,7 @@ class ImageModel {
       url: this.#data.url,
       repository: this.#data.repository,
       branch: this.#data.branch,
+      version: this.#data.version,   // <-- NUEVO
     };
   }
 
@@ -49,6 +54,7 @@ class ImageModel {
       url: this.#data.url,
       repository: this.#data.repository,
       branch: this.#data.branch,
+      version: this.#data.version,   // <-- NUEVO
     };
   }
 
@@ -58,6 +64,7 @@ class ImageModel {
     if (this.#data.url)        p.url        = this.#data.url;
     if (this.#data.repository) p.repository = this.#data.repository;
     if (this.#data.branch)     p.branch     = this.#data.branch;
+    if (this.#data.version)    p.version    = this.#data.version; // <-- NUEVO
     return p;
   }
 
@@ -65,7 +72,7 @@ class ImageModel {
   toOption() {
     return {
       value: this.#data.id,
-      label: this.#data.name,
+      label: this.#data.name + (this.#data.version ? ` (${this.#data.version})` : ""), // opcional
     };
   }
 
@@ -77,6 +84,7 @@ class ImageModel {
       url: obj.url ?? "",
       repository: obj.repository ?? null,
       branch: obj.branch ?? "",
+      version: obj.version ?? "",   // <-- NUEVO
     });
   }
 }

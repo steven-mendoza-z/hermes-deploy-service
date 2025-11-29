@@ -38,6 +38,7 @@ i18n
           version: "Version",
           url: "URL",
           source: "Source",
+          branch: "Branch",
 
           // Actions / Buttons
           addLivestock: "Add Livestock",
@@ -54,6 +55,11 @@ i18n
           archive: "Archive",
           delete: "Delete",
           update: "Update",
+          deploy: "Deploy",
+          build: "Build",
+          buildImage: "Build Image",
+          terminal: "Terminal",
+          selectServerMessage: "Select a server to connect",
 
           // Forms
           addServer: "Add Server",
@@ -99,6 +105,7 @@ i18n
           version: "Versión",
           url: "URL",
           source: "Origen",
+          branch: "Rama",
 
           // Actions / Buttons
           addLivestock: "Agregar Ganado",
@@ -115,6 +122,11 @@ i18n
           archive: "Archivar",
           delete: "Eliminar",
           update: "Actualizar",
+          deploy: "Desplegar",
+          build: "Construir",
+          buildImage: "Construir Imagen",
+          terminal: "Terminal",
+          selectServerMessage: "Selecciona un server para conectarse",
 
           // Forms
           addServer: "Agregar Servidor",

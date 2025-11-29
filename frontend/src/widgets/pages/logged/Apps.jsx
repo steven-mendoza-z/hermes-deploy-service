@@ -1,20 +1,24 @@
+// src/widgets/pages/logged/Apps.jsx
 import { useTranslation } from "react-i18next";
-import TableCRUD from "../../components/TableCRUD";
-import { useApps } from "../../../features/deployments/apps/hooks";
+import {
+  useApps,
+  useDeleteApp,
+} from "../../../features/deployments/apps/hooks";
 import { useAppState } from "../../../context/AppStateContext";
+import ResponsiveTable from "../../components/table/ResponsiveTable";
 
 export function AppsPage() {
   const { t } = useTranslation();
-  const { setAdvancedForm } = useAppState();
+  const { setAdvancedForm, setFormObject } = useAppState();
 
   const {
     data: apps = [],
-    isLoading,
-    isError,
-    error,
+    // isLoading,
+    // isError,
+    // error,
   } = useApps();
 
-  console.log("Apps fetched:", apps);
+  const deleteApp = useDeleteApp();
 
   const statusCell = {
     key: "status",
@@ -46,26 +50,77 @@ export function AppsPage() {
     width: "35%",
   };
 
+  const columns = [
+    statusCell,
+    {
+      key: "name",
+      header: t("name"),
+      sortable: true,
+      width: "20%",
+    },
+    {
+      key: "domain",
+      header: t("domain"),
+      sortable: true,
+      width: "25%",
+    },
+    locationsCell,
+    {
+      key: "image",
+      header: t("image"),
+      sortable: true,
+      width: "20%",
+    },
+  ];
+
+  const desktopMenuActions = [
+    {
+      label: t("deploy"),
+      onClick: (row) => {
+        setAdvancedForm("");
+      },
+    },
+    {
+      label: t("edit"),
+      onClick: (row) => {
+        setFormObject(row);
+        setAdvancedForm("editApp", row);
+      },
+    },
+    {
+      label: t("delete"),
+      onClick: (row) => {
+        if (!row?.id) return;
+        deleteApp.mutate(
+          { pathParams: { id: row.id } },
+          {
+            onError: (err) => {
+              console.error("Error deleting app:", err);
+            },
+          }
+        );
+      },
+    },
+  ];
+
   return (
-    <div className="full-view flex column-left gap20">
-      <TableCRUD
-        id="apps"
-        table_name="apps"
-        addFormName="addApp"
-        searchKeys={["name", "servers", "domain", "repository", "image"]}
-        columns={[
-          statusCell,
-          { key: "name", header: t("name"), sortable: true, width: "20%" },
-          { key: "domain", header: t("domain"), sortable: true, width: "25%" },
-          locationsCell,
-          { key: "image", header: t("image"), sortable: true, width: "20%" },
-        ]}
-        initialData={apps}
-        buttonName="create"
-        // 👇 abre FormActionsApp
-        onRowClick={(row) => setAdvancedForm("actionsApp", row)}
-      />
-    </div>
+    <ResponsiveTable
+      id="apps"
+      table_name="apps"
+      addFormName="addApp"
+      searchKeys={["name", "servers", "domain", "repository", "image"]}
+      columns={columns}
+      initialData={apps}
+      buttonName="create"
+      // mobile: abre directamente el form de acciones
+      mobileAction={(row) => {
+        setFormObject(row);
+        setAdvancedForm("actionsApp", row);
+      }}
+      // desktop: menú flotante
+      desktopMenuTitle={t("app")}
+      desktopMenuActions={desktopMenuActions}
+    />
   );
 }
 

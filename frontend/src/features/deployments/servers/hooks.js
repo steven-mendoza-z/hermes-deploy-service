@@ -28,3 +28,12 @@ export const {
         )
       : [],
 });
+
+export async function getServerStatus(id) {
+  const res = await fetch(`http://127.0.0.1:8000/servers/${id}/status/`);
+  const data = await res.json();
+  console.log("status data", id, data);
+
+  return data;
+}
+

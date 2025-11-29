@@ -12,9 +12,10 @@ export function FormAddImage({ onRequestClose }) {
 
   const inputList = [
     { label: "name", valueKey: "name", validations: { required: true, minLength: 3 } },
-    { label: "version", valueKey: "branch", validations: { required: true } },
+    { label: "version", valueKey: "branch", validations: { required: false } },
     { label: "url", valueKey: "url", validations: { required: true, type: "url" } },
-    { label: "repository", valueKey: "repository", validations: { required: true } },
+    { label: "repository", valueKey: "repository", validations: { required: false } },
+    { label: "branch", valueKey: "branch", validations: { required: false } },
   ];
 
   const handleChange = (key, value) => {

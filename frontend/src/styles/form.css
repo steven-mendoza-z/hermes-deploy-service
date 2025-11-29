@@ -1,17 +1,16 @@
 .form-layout {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    /* background: #00000040; */
-    z-index: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  /* background: #00000040; */
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-container.card {
   background-color: var(--bg);
-  
 }
 
 /* .form-layout.closing .form-out {
@@ -29,8 +28,8 @@
 
 .form-container.card {
   position: fixed;
-  max-width: 80%;
-  height: 90%;
+  max-width: 70%;
+  height: 70%;
   padding: 50px 40px;
   animation: slideUp 0.3s ease-out;
   z-index: 200;
@@ -71,7 +70,7 @@
   line-height: 0;
 }
 
-.actionsForm button {
+.editForm button {
   background-color: var(--highlight1);
   color: var(--text-highlight2);
   color: white;
@@ -81,24 +80,45 @@
   /* font-weight: 500; */
 }
 
-.actionsForm button.status-button {
+.editForm button.status-button {
   border-radius: 100%;
   display: flex;
   padding: 5px;
 }
-.actionsForm .status-button .status-icon {
+.editForm .status-button .status-icon {
   width: 20px;
   height: 20px;
 }
 
 
-.actionsForm button.on {
+.editForm button.on {
   background-color: #51d29f;
 }
-.actionsForm button.off {
+.editForm button.off {
   background-color: #d36985;
 }
 
+.actionsForm button {
+  background-color: var(--highlight1);
+  background-color:#3a60ca;
+  border-radius: 100%;
+  padding: 20px;
+}
+.actionsForm button .icon {
+  min-width: 30px;
+  min-height: 30px;
+  filter: invert(0.9);
+}
+
+.actionsForm button.green {
+  background-color: #3aca91;
+}
+.actionsForm button.red {
+  background-color:#ca3a5c;
+}
+.actionsForm button.blue {
+  background-color:#3a60ca;
+}
 
 /* Fields */
 
@@ -197,13 +217,28 @@
     /* z-index: 1000; */
   }
 
+  .form-container {
+    position: absolute;
+    bottom: 50px;
+  }
+
   .form-container.card {
-    border-radius: 20px;
-    max-height: 80%;
+    border-radius: 20px 20px 0px 0px;
     max-width: 100%;
     padding: 40px 30px;
-    padding-bottom: 70px;
+    /* padding-bottom: 70px; */
   }
+
+  .long-form .form-container.card {
+    height: 70%;
+    max-height: 70%;
+  }
+  .short-form .form-container.card {
+    padding: 20px;
+    height: 200px;
+    max-height: 200px;
+  }
+
 
   .form-container.card {
     animation: slideUp 0.15s ease-out;
