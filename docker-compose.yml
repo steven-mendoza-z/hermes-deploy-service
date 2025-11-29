@@ -1,7 +1,7 @@
 services:  
   backend:
     build: ./backend
-    container_name: "${PROJECT_NAME}_backend"
+    # container_name: "${PROJECT_NAME}_backend"
     command: python -m daphne -b 0.0.0.0 -p ${BACKEND_PORT} backend.asgi:application
     environment:
       VIRTUAL_HOST: ${BACKEND_DOMAIN}
