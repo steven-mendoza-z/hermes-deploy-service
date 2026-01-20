@@ -1,69 +1,63 @@
-
 @startuml Hermes Deployment Services
-' ---------------- Main Models ----------------
-class User {
-    +id: AutoField
-    +name: CharField
-    +email: CharField
-    +password: hash
-}
+
+' ---------------- Modelos principales ----------------
 
 class Server {
     +id: AutoField
-    +user: User
-    
-    +name: CharField
-    +email: CharField
-    +region: CharField
-    +ssh_key: CharField
-    ' +on: ServerStatus
+    +name: CharField(255)
+    +ip: CharField(63)
+    +email: EmailField
+    +region: CharField(100)
+    +project: CharField(255)
 }
 
-class App {
+class Repo {
     +id: AutoField
-    +name: CharField
-    +domain: CharField
-    
-    +locations: List<AppLocation>
-    +image: Image
-}
-
-class AppLocation {
-    +id: AutoField
-    +server: Server
-    +port: IntegerField
+    +name: CharField(255)
+    +url: URLField
 }
 
 class Image {
     +id: AutoField
-    +name: CharField
-    +url: CharField
-    +repository: Repository
-    +branch: CharField
+    +name: CharField(255)
+    +url: URLField
+    +branch: CharField(255)
+    +version: CharField(63)
 }
 
-class Repository {
+class App {
     +id: AutoField
-    +name: CharField
-    +url: CharField
-    +enVals: List<EnvVar>
+    +name: CharField(255)
+    +domain: CharField(255)
+    +branch: CharField(255)
 }
 
-class EnvVar{
+class Env {
     +id: AutoField
-    +name: CharField
-    +value: CharField
+    +name: CharField(255)
 }
 
+class EnvVar {
+    +id: AutoField
+    +name: CharField(255)
+    +value: TextField
+}
 
-' ---------------- Relationships ----------------
-User "1" -- "*" Server
-Server "*" -- "*" App
+' ---------------- Relaciones ----------------
 
-App "1" -- "1" Image
-App "1" -- "*" AppLocation
-Image "1" -- "1" Repository
+' Un Server puede alojar varias Apps
+Server "1" -- "*" App : hosts
 
-Repository "1" -- "*" EnvVar
+' Un Repo puede estar asociado a varias Apps
+Repo "1" -- "*" App : source
+
+' Un Repo puede tener varias Images
+Repo "1" -- "*" Image : builds
+
+' Una App puede tener varios Env (.env, prod, etc.)
+App "1" -- "*" Env : has
+
+' Cada Env tiene muchas EnvVar
+Env "1" -- "*" EnvVar : contains
 
 @enduml

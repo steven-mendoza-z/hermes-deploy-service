@@ -21,7 +21,7 @@ export function SshCmd({ onRequestClose }) {
   };
 
   return (
-    <div className="full-view column-left gap10">
+    <div className="full-view column-left gap20 sshForm">
 
       <div className="full-w row-right">
         <button className="exit-button" onClick={handleExit}>
@@ -30,12 +30,24 @@ export function SshCmd({ onRequestClose }) {
       </div>
 
       <p className="h3">{t("sshTitle")}</p>
-      <p className="t-body3">{t("sshDescription")}</p>
-      <div className="row-right full-w">
-        <button className="row gap5 hl1" onClick={handleCopy}>
-          <img src="actions/copy.svg" alt="copy command" className="icon"/>
-          <p>{copied ? t("copied") : t("copy")}</p>
-        </button>
+      
+      <div className="full-w column-left gap5">
+        <p className="t-body3">{t("sshDescription1")}</p>
+        
+        <div className="row-right full-w">
+          <button className="row gap5 hl1" onClick={handleCopy}>
+            <img src="actions/copy.svg" alt="copy command" className="icon"/>
+            <p>{copied ? t("copied") : t("copy")}</p>
+          </button>
+        </div>
+
+        <p className="t-body3">{t("sshDescription2")}</p>
+        
+        <div className="row-right full-w">
+          <button className="row gap5 hl1 setup-button" onClick={handleCopy}>
+            <p>{t("setup")}</p>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -25,12 +25,15 @@ export function ImagesPage() {
     header: t("source"),
     sortable: false,
     cell: (row) => (
-      <div className="full-w flex-center">
-        {row.repository} ({row.branch})
-      </div>
-    ),
+     (row.repositoryName || row.repository ? <div className="full-w flex-center">
+        {row.repositoryName || row.repository} {row.branch && `(${row.branch})`}
+      </div> : (
+        <img src="tables/line.svg" alt="null" className="table-null icon"/>
+      )
+    )),
     width: "25%",
   };
+
 
   const columns = [
     {
@@ -89,7 +92,7 @@ export function ImagesPage() {
       id="images"
       table_name="images"
       addFormName="addImage"
-      searchKeys={["name", "url", "app", "repository", "branch", "version"]}
+      searchKeys={["name", "url", "app", "repository_name", "branch", "version"]}
       columns={columns}
       initialData={images}
       // mobile: abre directamente el form de acciones

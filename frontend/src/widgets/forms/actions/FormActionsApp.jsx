@@ -37,6 +37,12 @@ export default function FormActionsApp({ onRequestClose }) {
       color: "",
     },
     {
+      label: "envVars",
+      onClick: () => setAdvancedForm("editEnv", formObject),
+      icon: "actions/edit.svg",
+      color: "",
+    },
+    {
       label: "deploy",
       onClick: handleDelete,
       icon: "actions/deploy.svg",

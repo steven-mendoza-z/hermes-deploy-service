@@ -1,7 +1,5 @@
-# deploy/models.py
 from django.conf import settings
 from django.db import models
-
 
 class Server(models.Model):
     # user = models.ForeignKey(
@@ -28,20 +26,6 @@ class Repo(models.Model):
     def __str__(self):
         return self.name
 
-
-class EnvVar(models.Model):
-    repo = models.ForeignKey(
-        Repo,
-        on_delete=models.CASCADE,
-        related_name="env_vars",
-    )
-    name = models.CharField(max_length=255)
-    value = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.repo.name})"
-
-
 class Image(models.Model):
     name = models.CharField(max_length=255)
     url = models.URLField()
@@ -62,8 +46,16 @@ class Image(models.Model):
 class App(models.Model):
     name = models.CharField(max_length=255)
     domain = models.CharField(max_length=255, blank=True)
-    image = models.ForeignKey(
-        Image,
+    repo = models.ForeignKey(
+        Repo,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="apps",
+    )
+    branch = models.CharField(max_length=255, blank=True)
+    server = models.ForeignKey(
+        Server,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -74,20 +66,30 @@ class App(models.Model):
         return self.name or self.domain or f"App {self.pk}"
 
 
-class AppLocation(models.Model):
+
+class Env(models.Model):
     app = models.ForeignKey(
         App,
         on_delete=models.CASCADE,
-        related_name="locations",
+        related_name="envs",
     )
-    server = models.ForeignKey(
-        Server,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="app_locations",
-    )
-    port = models.PositiveIntegerField(null=True, blank=True)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.app} @ {self.server} : {self.port}"
+        return f"{self.name} ({self.app})"
+
+
+class EnvVar(models.Model):
+    env = models.ForeignKey(
+        Env,
+        on_delete=models.CASCADE,
+        related_name="vars",
+    )
+    name = models.CharField(max_length=255)
+    value = models.TextField()
+
+    class Meta:
+        unique_together = ("env", "name")
+
+    def __str__(self):
+        return f"{self.name} ({self.env})"

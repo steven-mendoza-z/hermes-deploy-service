@@ -17,6 +17,7 @@ import FormActionsRepo from "../forms/actions/FormActionsRepo";
 import FormActionsApp from "../forms/actions/FormActionsApp";
 
 import SshCmd from "../forms/actions/sshCmd";
+import FormEditEnv from "../forms/edit/FormEditEnv";
 
 
 // Ahora cada entrada es { form: JSX, type: string }
@@ -30,6 +31,7 @@ const formSelected = {
   editImage:   { form: <FormEditImage />,   type: "long-form" },
   editRepo:    { form: <FormEditRepo />,    type: "long-form" },
   editApp:     { form: <FormEditApp />,     type: "long-form" },
+  editEnv:     { form: <FormEditEnv />,     type: "long-form" },
 
   actionsServer: { form: <FormActionsServer />, type: "short-form" },
   actionsImage:  { form: <FormActionsImage />,  type: "short-form" },

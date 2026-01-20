@@ -2,7 +2,7 @@
 export const ENV_SERVER =
   // import.meta.env?.VITE_ENV_SERVER ||
   // process.env?.VITE_ENV_SERVER ||
-  "prod";
+  "local";
 
 // Base Domains
 export const ACCOUNTS_API_DOMAIN = "accounts.hermes.purpleblue.site";

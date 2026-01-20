@@ -31,6 +31,12 @@ export default function FormActionsServer({ onRequestClose }) {
       color: "",
     },
     {
+      label: "setup",
+      onClick: () => setAdvancedForm("sshCmd", formObject),
+      icon: "nav/settings.svg",
+      color: "",
+    },
+    {
       label: "edit",
       onClick: () => setAdvancedForm("editServer", formObject),
       icon: "actions/edit.svg",

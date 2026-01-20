@@ -1,53 +1,51 @@
-// RepoModel.js
-class RepoModel {
+// EnvModel.js
+class EnvModel {
   #data = {
     id: "",
-    name: "",
-    url: "",
+    app: null, // id de App
+    name: "",  // p.ej. "production", "staging"
   };
 
   constructor(initialData = {}) {
     if (initialData.id !== undefined) {
       this.#data.id = initialData.id;
     }
+    this.#data.app  = initialData.app  ?? this.#data.app;
     this.#data.name = initialData.name ?? this.#data.name;
-    this.#data.url  = initialData.url  ?? this.#data.url;
   }
 
   // Getters
   get id()   { return this.#data.id; }
+  get app()  { return this.#data.app; }
   get name() { return this.#data.name; }
-  get url()  { return this.#data.url; }
 
   // Setters
   set id(v)   { this.#data.id = v; }
+  set app(v)  { this.#data.app = v; }
   set name(v) { this.#data.name = v; }
-  set url(v)  { this.#data.url = v; }
 
-  // Serialización
   toJSON() {
     return {
       id: this.#data.id,
+      app: this.#data.app,
       name: this.#data.name,
-      url: this.#data.url,
     };
   }
 
   toAddPayload() {
     return {
+      app: this.#data.app,
       name: this.#data.name,
-      url: this.#data.url,
     };
   }
 
   toEditPayload() {
     const p = {};
     if (this.#data.name) p.name = this.#data.name;
-    if (this.#data.url)  p.url  = this.#data.url;
+    // normalmente no cambias el app asociado
     return p;
   }
 
-  // Helpers UI
   toOption() {
     return {
       value: this.#data.id,
@@ -55,14 +53,13 @@ class RepoModel {
     };
   }
 
-  // Factory desde API
   static fromAPI(obj = {}) {
-    return new RepoModel({
+    return new EnvModel({
       id: obj.id ?? "",
+      app: obj.app ?? null,
       name: obj.name ?? "",
-      url: obj.url ?? "",
     });
   }
 }
 
-export { RepoModel };
+export { EnvModel };

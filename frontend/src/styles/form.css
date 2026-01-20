@@ -98,12 +98,19 @@
   background-color: #d36985;
 }
 
-.actionsForm button, .sshForm button {
+.actionsForm button {
   background-color: var(--highlight1);
   background-color:#3a60ca;
   border-radius: 100%;
   padding: 20px;
 }
+.ssh-form button {
+  padding: 15px;
+}
+.ssh-form button.setup-button {
+  padding: 20px 15px;
+}
+
 .actionsForm button .icon {
   min-width: 30px;
   min-height: 30px;
@@ -121,9 +128,9 @@
 }
 
 .ssh-form .form-container.card {
-  padding: 20px;
-  height: 150px;
-  max-height: 150px;
+  padding: 10px;
+  height: 240px;
+  max-height: 240px;
 }
 .ssh-form .exit-button {
   position: absolute;
@@ -198,6 +205,9 @@
   font-weight: 400;
 }
 
+.env-editor{
+  height: 60px;
+}
 
 @media (min-width: 769px) {
   .form-layout {
@@ -251,8 +261,8 @@
   }
   .ssh-form .form-container.card {
     padding: 20px;
-    height: 150px;
-    max-height: 150px;
+    height: 230px;
+    max-height: 230px;
   }
 
 

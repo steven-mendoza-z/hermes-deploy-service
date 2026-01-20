@@ -134,12 +134,19 @@ export function ServersPage() {
         setAdvancedForm("", null),
         setOpenTerminal(true)
       },
-    },
+    },    
     {
       label: t("edit"),
       onClick: (row) => {
         setSelectedServer(row);
         setAdvancedForm("editServer", row);
+      },
+    },
+    {
+      label: t("setup"),
+      onClick: (row) => {
+        setSelectedServer(row);
+        setAdvancedForm("sshCmd", row);
       },
     },
     {

@@ -1,46 +1,36 @@
 # deploy/serializers.py
 from rest_framework import serializers
-from .models import App, Image, Repo, EnvVar, Server, AppLocation
+from .models import App, Image, Repo, Env, EnvVar, Server
 
+
+# ---------- Env / EnvVar ----------
 
 class EnvVarSerializer(serializers.ModelSerializer):
+    # write_only: se puede enviar, pero nunca se devuelve (GitHub Secrets style)
+    value = serializers.CharField(write_only=True)
+
     class Meta:
         model = EnvVar
-        # En el front EnvVarModel solo tiene id, name, value
-        fields = ["id", "name", "value"]
+        fields = ["id", "env", "name", "value"]
 
 
-class RepoSerializer(serializers.ModelSerializer):
-    # repo.envVars en el front
-    envVars = EnvVarSerializer(many=True, source="env_vars", required=False)
+class EnvSerializer(serializers.ModelSerializer):
+    app = serializers.PrimaryKeyRelatedField(queryset=App.objects.all())
 
     class Meta:
+        model = Env
+        fields = ["id", "app", "name"]
+
+
+# ---------- Repo ----------
+
+class RepoSerializer(serializers.ModelSerializer):
+    class Meta:
         model = Repo
-        fields = ["id", "name", "url", "envVars"]
+        fields = ["id", "name", "url"]
 
-    def create(self, validated_data):
-        envvars_data = validated_data.pop("env_vars", [])
-        repo = Repo.objects.create(**validated_data)
-        for ev in envvars_data:
-            EnvVar.objects.create(repo=repo, **ev)
-        return repo
 
-    def update(self, instance, validated_data):
-        envvars_data = validated_data.pop("env_vars", None)
-
-        # Campos simples
-        instance.name = validated_data.get("name", instance.name)
-        instance.url = validated_data.get("url", instance.url)
-        instance.save()
-
-        # Manejo de envVars anidados (simple: reemplazar todos)
-        if envvars_data is not None:
-            instance.env_vars.all().delete()
-            for ev in envvars_data:
-                EnvVar.objects.create(repo=instance, **ev)
-
-        return instance
-
+# ---------- Image ----------
 
 class ImageSerializer(serializers.ModelSerializer):
     # repository puede ser null o id
@@ -49,76 +39,72 @@ class ImageSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True,
     )
+    repository_name = serializers.CharField(source="repository.name", read_only=True)
 
     class Meta:
         model = Image
-        fields = ["id", "name", "url", "repository", "branch", "version"]
+        fields = ["id", "name", "url", "repository", "repository_name", "branch", "version"]
 
+
+# ---------- Server ----------
 
 class ServerSerializer(serializers.ModelSerializer):
-    # user = id de User (opcional)
-    # user = serializers.PrimaryKeyRelatedField(
-    #     queryset=Server._meta.get_field("user").remote_field.model.objects.all(),
-    #     required=False,
-    #     allow_null=True,
-    # )
-
     class Meta:
         model = Server
         fields = ["id", "name", "ip", "email", "region", "project"]
 
 
-# deploy/serializers.py
+# ---------- App ----------
 
-class AppLocationSerializer(serializers.ModelSerializer):
-    # Para escribir: mandas el id del server (server)
+class AppSerializer(serializers.ModelSerializer):
+    # repo: id de Repo
+    repo = serializers.PrimaryKeyRelatedField(
+        queryset=Repo.objects.all(),
+        required=False,
+        allow_null=True,
+    )
+    repo_name = serializers.CharField(source="repo.name", read_only=True)
+
+    # server: id de Server
     server = serializers.PrimaryKeyRelatedField(
         queryset=Server.objects.all(),
         required=False,
         allow_null=True,
-        write_only=True,      
     )
-    ip = serializers.CharField(source="server.ip", read_only=True)
-
-    class Meta:
-        model = AppLocation
-        fields = ["id", "server", "ip", "port"]
-
-
-class AppSerializer(serializers.ModelSerializer):
-    image = serializers.PrimaryKeyRelatedField(
-        queryset=Image.objects.all(),
-        required=False,
-        allow_null=True,
-    )
-    # locations: lista de AppLocationModel
-    locations = AppLocationSerializer(many=True, required=False)
+    server_name = serializers.CharField(source="server.name", read_only=True)
+    server_ip = serializers.CharField(source="server.ip", read_only=True)
 
     class Meta:
         model = App
-        fields = ["id", "name", "domain", "locations", "image"]
+        fields = [
+            "id",
+            "name",
+            "domain",
+            "repo",
+            "repo_name",
+            "branch",
+            "server",
+            "server_name",
+            "server_ip",
+        ]
 
     def create(self, validated_data):
-        locations_data = validated_data.pop("locations", [])
+        # Crear la App
         app = App.objects.create(**validated_data)
-
-        for loc in locations_data:
-            AppLocation.objects.create(app=app, **loc)
-
+        # 🔥 Crear Env por defecto .env para esta App
+        Env.objects.create(app=app, name=".env")
         return app
 
     def update(self, instance, validated_data):
-        locations_data = validated_data.pop("locations", None)
-
         instance.name = validated_data.get("name", instance.name)
         instance.domain = validated_data.get("domain", instance.domain)
-        instance.image = validated_data.get("image", instance.image)
+        instance.repo = validated_data.get("repo", instance.repo)
+        instance.branch = validated_data.get("branch", instance.branch)
+        instance.server = validated_data.get("server", instance.server)
         instance.save()
 
-        # Si viene "locations", hacemos un replace simple
-        if locations_data is not None:
-            instance.locations.all().delete()
-            for loc in locations_data:
-                AppLocation.objects.create(app=instance, **loc)
+        # 🔒 Garantizar que siempre exista un Env (.env) asociado
+        if not instance.envs.exists():
+          Env.objects.create(app=instance, name=".env")
 
         return instance

@@ -35,19 +35,18 @@ export function AppsPage() {
   //   width: "50px",
   // };
 
-
-  const locationsCell = {
-    key: "locations",
-    header: t("servers"),
+  const sourceCell = {
+    key: "source",
+    header: t("source"),
     sortable: false,
     cell: (row) => (
-      <div className="full-w flex-center">
-        {(row.locations || [])
-          .map((loc) => `${loc.ip}:${loc.port}`)
-          .join(", ")}
-      </div>
-    ),
-    width: "35%",
+     (row.repoName || row.repo ? <div className="full-w flex-center">
+        {row.repoName || row.repo} {row.branch && `(${row.branch})`}
+      </div> : (
+        <img src="tables/line.svg" alt="null" className="table-null icon"/>
+      )
+    )),
+    width: "25%",
   };
 
   const columns = [
@@ -56,7 +55,7 @@ export function AppsPage() {
       key: "name",
       header: t("name"),
       sortable: true,
-      width: "20%",
+      width: "25%",
     },
     {
       key: "domain",
@@ -64,13 +63,27 @@ export function AppsPage() {
       sortable: true,
       width: "25%",
     },
-    locationsCell,
+    sourceCell,
     {
-      key: "image",
-      header: t("image"),
+      key: "serverName",
+      header: t("destination"),
       sortable: true,
-      width: "20%",
+      width: "25%",
     },
+    // locationsCell,
+
+    // {
+    //   key: "repoName",
+    //   header: t("repository"),
+    //   sortable: true,
+    //   width: "30%",
+    // },
+    // {
+    //   key: "branch",
+    //   header: t("branch"),
+    //   sortable: true,
+    //   width: "20%",
+    // },
   ];
 
   const desktopMenuActions = [
@@ -78,6 +91,13 @@ export function AppsPage() {
       label: t("deploy"),
       onClick: (row) => {
         setAdvancedForm("");
+      },
+    },
+    {
+      label: t("envVars"),
+      onClick: (row) => {
+        setFormObject(row);
+        setAdvancedForm("editEnv", row);
       },
     },
     {
@@ -108,7 +128,7 @@ export function AppsPage() {
       id="apps"
       table_name="apps"
       addFormName="addApp"
-      searchKeys={["name", "servers", "domain", "repository", "image"]}
+      searchKeys={["name", "servers", "domain", "repo_name", "image", "server"]}
       columns={columns}
       initialData={apps}
       buttonName="create"

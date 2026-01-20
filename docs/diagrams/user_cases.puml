@@ -1,90 +1,105 @@
 @startuml cases
 left to right direction
 
-title User Cases Diagram - Hosting Service API
+title User Cases Diagram - Hermes Deployment Services
 
-actor "Unautheticated" as Unautheticated
+actor "Unauthenticated" as Unauth
 actor "User" as User
-
-' rectangle "Authentication" {
-  
-' }
 
 rectangle "Auth" {
     usecase "Login" as Login
-    usecase "SignUp" as SignUp
+    usecase "Sign Up" as SignUp
 }
 
 rectangle "Hosting" {
+
     rectangle "Servers" {
-        usecase "Ver Servers" as ListServers
-        usecase "Seleccionar Server" as SelectServer
-        usecase "Agregar Server" as AddServer
-        usecase "Asignar Credenciales" as AsignCredentials
+        usecase "Ver listado de Servers" as ListServers
+        usecase "Registrar Server" as AddServer
+        usecase "Ver Detalle de Server" as ViewServer
         usecase "Editar Server" as EditServer
         usecase "Eliminar Server" as DeleteServer
-        usecase "Cambiar estado" as ChangeServerStatus
-        usecase "Acceder a la Terminal" as AccessServer
-    }
-    rectangle "Apps" {
-        usecase "Crear App" as AddApp
-        usecase "Asignar App Data" as AsignData
-        usecase "Asignar Servers" as AsignServer
-        usecase "Agregar Repositorios" as AddRepo
-        usecase "Agregar Imagenes" as AddImage
 
-        usecase "Seleccionar App" as SelectApp
-        usecase "Editar App" as EditApp
-        usecase "Editar Repositorio" as EditRepo
-        usecase "Editar Imagen" as EditImage
-        usecase "Eliminar Repositorio" as DeleteRepo
-        usecase "Eliminar Imagen" as DeleteImage
-        usecase "Desplegar App" as DeployApp
+        usecase "Consultar Estado (ping/SSH)" as CheckServerStatus
+        usecase "Obtener comando de configuración SSH" as ViewSetupCmd
+        usecase "Ejecutar Setup Reverse Proxy" as SetupServer
+        usecase "Acceder a la Terminal SSH Web" as AccessServer
     }
-    ' usecase "Crear Server" as CreateServer
+
+    rectangle "Apps" {
+        usecase "Ver listado de Apps" as ListApps
+        usecase "Crear App" as AddApp
+        usecase "Editar App" as EditApp
+        usecase "Eliminar App" as DeleteApp
+
+        usecase "Asignar Repo y Branch" as AssignRepoBranch
+        usecase "Asignar Server de despliegue" as AssignServer
+        usecase "Gestionar Variables de Entorno (.env)" as ManageEnvVars
+
+        usecase "Desplegar App (futuro)" as DeployApp
+    }
+
+    rectangle "Repositorios" {
+        usecase "Ver Repositorios" as ListRepos
+        usecase "Agregar Repositorio" as AddRepo
+        usecase "Editar Repositorio" as EditRepo
+        usecase "Eliminar Repositorio" as DeleteRepo
+    }
+
+    rectangle "Imágenes" {
+        usecase "Ver Imágenes" as ListImages
+        usecase "Agregar Imagen" as AddImage
+        usecase "Editar Imagen" as EditImage
+        usecase "Eliminar Imagen" as DeleteImage
+        usecase "Construir Imagen desde Repo (futuro)" as BuildImage
+    }
 }
 
+' ------------ Relaciones Auth ------------
+Unauth --> Login
+Unauth --> SignUp
 
-'# User Cases
-Unautheticated --> Login
-Unautheticated --> SignUp
-
-
-' User --> CreateServer
+' ------------ Servers ------------
 User --> ListServers
 User --> AddServer
-AddServer --> AsignCredentials
-User --> SelectServer
-SelectServer --> EditServer
-SelectServer --> DeleteServer
-SelectServer --> ChangeServerStatus
-SelectServer --> AccessServer
+User --> ViewServer
 
+AddServer --> ViewSetupCmd
+
+ViewServer --> EditServer
+ViewServer --> DeleteServer
+ViewServer --> CheckServerStatus
+ViewServer --> SetupServer
+ViewServer --> AccessServer
+
+' ------------ Apps ------------
+User --> ListApps
 User --> AddApp
-AddApp --> AsignServer
-AddApp --> AddRepo
-AddApp --> AddImage
+User --> ViewServer  
 
-User --> SelectApp
-SelectApp --> DeployApp
-SelectApp --> EditApp
-EditApp --> EditRepo
-EditApp --> EditImage
-EditApp --> DeleteRepo
-EditApp --> DeleteImage
+AddApp --> AssignServer
+AddApp --> AssignRepoBranch
 
-' GET owners
-' Admin --> server
-' GET owners/<:id>
-' Admin --> GetOwner
-' POST owners/<:id>
-' Owner --> CreateOwner
-' PUT owners/<:id>
-' Owner --> EditOwner
-' PUT owners/<:id>/archive
-' Owner --> ArchiveOwner
-' DELETE owners/<:id>
-' Owner --> DeleteOwner
+User --> EditApp
+EditApp --> AssignServer
+EditApp --> AssignRepoBranch
+EditApp --> ManageEnvVars
 
+User --> DeleteApp
+User --> ListApps
+User --> DeployApp
+
+' ------------ Repos ------------
+User --> ListRepos
+User --> AddRepo
+User --> EditRepo
+User --> DeleteRepo
+
+' ------------ Imágenes ------------
+User --> ListImages
+User --> AddImage
+User --> EditImage
+User --> DeleteImage
+User --> BuildImage
 
 @enduml

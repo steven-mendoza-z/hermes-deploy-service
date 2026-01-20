@@ -34,6 +34,7 @@ i18n
           project: "Project",
           projectId: "Project ID",
           settings: "Settings",
+          destination: "Destination",
 
           // Image Pages
           version: "Version",
@@ -53,6 +54,7 @@ i18n
           add: "Add",
           create: "Create",
           edit: "Edit",
+          envVars: "Enviroment variables",
           archive: "Archive",
           delete: "Delete",
           update: "Update",
@@ -65,6 +67,7 @@ i18n
           exit: "Exit",
           copy: "Copy",
           copied: "Copied!",
+          setup: "Setup",
 
           // Forms
           addServer: "Add Server",
@@ -73,7 +76,7 @@ i18n
           createApp: "Create App",
           actionFormTitle: "Select an Action",
           required: "(required)",
-          sshTitle: "To connect to your server",
+          sshTitle: "To allow access to your server",
           sshDescription: "Copy and run the following command on the terminal",
 
           // Table messages
@@ -110,6 +113,7 @@ i18n
           project: "Proyecto",
           projectId: "ID del Proyecto",
           settings: "Ajustes",
+          destination: "Destino",
 
           // Image Pages
           version: "Versión",
@@ -129,6 +133,7 @@ i18n
           add: "Añadir",
           create: "Crear",
           edit: "Editar",
+          envVars: "Variables de entorno",
           archive: "Archivar",
           delete: "Eliminar",
           update: "Actualizar",
@@ -136,15 +141,17 @@ i18n
           build: "Construir",
           buildImage: "Construir Imagen",
           terminal: "Terminal",
-          selectServerMessage: "Selecciona un server para conectarse",
+          selectServerMessage: "Selecciona un servidor para conectarse",
           openTerminal: "Abrir terminal",
           exit: "Salir",
           copy: "Copiar",
           copied: "Copiado!",
+          setup: "Configurar",
 
-          sshTitle: "Para conectarse al servidor",
-          sshDescription: "Copia y corre el siguiente comando en tu terminal",
 
+          sshTitle: "Para permitir el acceso al servidor",
+          sshDescription1: "Copia y corre el siguiente comando en tu terminal",
+          sshDescription2: "Al finalizar, solicita la configuración de tu servidor",
 
           // Forms
           addServer: "Agregar Servidor",

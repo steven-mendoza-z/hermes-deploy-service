@@ -17,10 +17,9 @@ export default function CustomSelect({
   return (
     <div className={`customField ${className}`}>
       {label && (
-        <label className={`customField-label ${labelClassName}`}>
-          {label}
-          {required && <span className="requiredMark">*  </span>}
-          {required && <span className="requiredText">({t("required")})</span>}
+        <label className={`customField-label t-body5 ${labelClassName}`}>
+          {t(label)}
+          {required && <span className="requiredText">{t("required")}</span>}
         </label>
       )}
 

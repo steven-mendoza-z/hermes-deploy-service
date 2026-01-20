@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useRef } from "react";
 import CustomInput from "../components/CustomInput.jsx";
+import CustomSelect from "../components/CustomSelect.jsx";
 
 export default function RequestForm({
   title,
@@ -9,13 +10,13 @@ export default function RequestForm({
   handleChange,
   onSubmit,
   button_str,
+  children,
 }) {
   const { t } = useTranslation();
   const inputRefs = useRef([]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // El padre NO recibe el evento, solo dispara su lógica
     onSubmit?.();
   };
 
@@ -46,20 +47,54 @@ export default function RequestForm({
       <p className="h3 full-w">{title}</p>
 
       <div className="full-view column-left gap20">
-        {inputList.map(({ label, valueKey, validations }, index) => (
-          <CustomInput
-            key={valueKey}
-            label={t(label)}
-            placeholder={t(label)}
-            value={formObject?.[valueKey] || ""}
-            onChange={(v) => handleChange(valueKey, v)}
-            validations={validations}
-            ref={(el) => {
-              inputRefs.current[index] = el;
-            }}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-          />
-        ))}
+        {inputList.map(
+          (
+            {
+              label,
+              valueKey,
+              validations,
+              inputType = "text", // por defecto text
+              options = [],
+              ...rest
+            },
+            index
+          ) => {
+            const value = formObject?.[valueKey] ?? "";
+
+            if (inputType === "select") {
+              // Render Select
+              return (
+                <CustomSelect
+                  key={valueKey}
+                  label={t(label)}
+                  options={options}
+                  value={value}
+                  onChange={(v) => handleChange(valueKey, v)}
+                  {...rest}
+                />
+              );
+            }
+
+            // Render Input normal
+            return (
+              <CustomInput
+                key={valueKey}
+                label={t(label)}
+                placeholder={t(label)}
+                value={value}
+                onChange={(v) => handleChange(valueKey, v)}
+                validations={validations}
+                ref={(el) => {
+                  inputRefs.current[index] = el;
+                }}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                {...rest}
+              />
+            );
+          }
+        )}
+
+        {children}
       </div>
 
       <div className="full-w row-right">
