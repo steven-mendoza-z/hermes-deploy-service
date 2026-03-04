@@ -142,11 +142,11 @@ Hermes is composed of two main layers: a **Control Plane** and a **Data Hermes f
   <img src="docs/images/containers_diagram.png">
 </div>
 
-### Internal Components (C4 – Level 3)
+<!-- ### Internal Components (C4 – Level 3)
 
 <div align="center">
   <img src="docs/images/containers_diagram.png">
-</div>
+</div> -->
 
 ## Core Concepts (Domain Model)
 
